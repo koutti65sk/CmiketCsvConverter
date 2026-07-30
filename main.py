@@ -1,4 +1,4 @@
-python.exe -m pip install --upgrade pipimport pandas as pd
+import pandas as pd
 from pathlib import Path
 from openpyxl import load_workbook
 from tkinter import Tk
