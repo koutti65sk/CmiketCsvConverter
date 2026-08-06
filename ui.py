@@ -16,17 +16,17 @@ class ConverterUI:
 
         self.create_widgets()
 
-        def add_log(self, message):
-            self.log_box.insert(
-                tk.END,
-                message + "\n"
-            )
+    def add_log(self, message):
+        self.log_box.insert(
+            tk.END,
+            message + "\n"
+        )
 
-            self.log_box.see(
-                tk.END
-            )
+        self.log_box.see(
+            tk.END
+        )
 
-            self.root.update()
+        self.root.update()
 
     def create_widgets(self):
         # タイトル
