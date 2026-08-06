@@ -9,7 +9,8 @@ class ConverterUI:
         self.root = root
 
         self.root.title("Excel CSV Converter")
-        self.root.geometry("500x300")
+        self.root.geometry("600x350")
+        self.root.resizable(False, False)
 
         self.file_path = None
 
@@ -48,6 +49,12 @@ class ConverterUI:
         )
         convert_button.pack(pady=10)
 
+        self.status_label = tk.Label(
+            self.root,
+            text=""
+        )
+        self.status_label.pack(pady=10)
+
 
     def select_file(self):
         file_path = filedialog.askopenfilename(
@@ -74,7 +81,17 @@ class ConverterUI:
             return
 
         try:
+            self.status_label.config(
+                text="変換中..."
+            )
+
+            self.root.update()
+
             excel_to_csv(self.file_path)
+
+            self.status_label.config(
+                text="完了"
+            )
 
             messagebox.showinfo(
                 "完了",
@@ -82,6 +99,9 @@ class ConverterUI:
             )
 
         except Exception as e:
+            import traceback
+            traceback.print_exc()
+
             messagebox.showerror(
                 "エラー",
                 str(e)
