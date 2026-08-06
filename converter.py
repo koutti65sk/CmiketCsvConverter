@@ -55,6 +55,11 @@ def excel_to_csv(file_path, mode="1", max_rows=None):
             file_path,sheet_name=sheet,nrows=max_rows
         )
 
+        df.columns = df.columns.astype(str).str.strip()
+        if "購入内容" not in df.columns:
+            print(f"{sheet} に購入内容列がありません")
+            continue
+
         print("シート名:", sheet)
         print("列名:", df.columns.tolist())
 
