@@ -15,6 +15,8 @@ class ConverterUI:
         self.file_path = None
 
         self.create_widgets()
+        self.file_path = None
+        self.log_box = None
 
     def add_log(self, message):
         self.log_box.insert(
@@ -54,12 +56,15 @@ class ConverterUI:
         select_button.pack(pady=10)
 
         # 変換ボタン
-        convert_button = tk.Button(
+        self.convert_button = tk.Button(
             self.root,
             text="CSVへ変換",
             command=self.convert
         )
-        convert_button.pack(pady=10)
+
+        self.convert_button.pack(
+            pady=10
+        )
 
         self.status_label = tk.Label(
             self.root,
@@ -106,21 +111,37 @@ class ConverterUI:
 
         try:
 
-            self.add_log(
-                "変換開始..."
+            self.convert_button.config(
+                state="disabled"
             )
+
+            self.status_label.config(
+                text="変換中..."
+            )
+
+            self.root.update()
 
             excel_to_csv(
                 self.file_path
             )
 
-            self.add_log(
-                "変換完了"
+            self.status_label.config(
+                text="完了"
             )
 
-            messagebox.showinfo(
-                "完了",
-                "変換が完了しました"
+            self.convert_button.config(
+                state="normal"
+            )
+
+        except Exception as e:
+
+            self.convert_button.config(
+                state="normal"
+            )
+
+            messagebox.showerror(
+                "エラー",
+                str(e)
             )
 
         except Exception as e:
