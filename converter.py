@@ -1,11 +1,9 @@
 from pathlib import Path
-import pandas as pd
-from openpyxl import load_workbook
 
 from csv_builder import create_row
-from constants import CSV_COLUMNS
-from excel_reader import get_hyperlinks
+from excel_reader import read_excel, get_hyperlinks
 from zip_manager import create_zip
+from csv_writer import save_csv
 
 def excel_to_csv(file_path, mode="1", max_rows=None):
     """
@@ -26,22 +24,32 @@ def excel_to_csv(file_path, mode="1", max_rows=None):
 
     print(f"変換開始 : {file_path}")
 
-    # Excelファイルを読み込む
-    excel=pd.ExcelFile(file_path)
-    wb=load_workbook(file_path,data_only=True)
-
     # 保存先は元ファイルと同じフォルダ
     output_dir = Path(file_path).parent
+    output_dir = Path(file_path).parent
+    excel_name = Path(file_path).stem
 
-    created_csv_files = []
 
     # 各シートをCSVに変換
-    for sheet in excel.sheet_names:
-        df = pd.read_excel(
-            file_path,sheet_name=sheet,nrows=max_rows
-        )
+    sheets = read_excel(
+        file_path,
+        max_rows
+    )
 
-        df.columns = df.columns.astype(str).str.strip()
+
+    for sheet_data in sheets:
+
+        sheet = sheet_data["name"]
+        df = sheet_data["df"]
+        ws = sheet_data["ws"]
+
+        links = get_hyperlinks(ws, "URL")
+
+        if len(links) < len(df):
+            links.extend([""] * (len(df)-len(links)))
+
+        links = links[:len(df)]
+
         if "購入内容" not in df.columns:
             print(f"{sheet} に購入内容列がありません")
             continue
@@ -50,55 +58,25 @@ def excel_to_csv(file_path, mode="1", max_rows=None):
             df = df[df["購入内容"].notna()]
             df = df[df["購入内容"].astype(str).str.strip() != ""]
 
-        ws=wb[sheet]
-        links = get_hyperlinks(ws, "URL")
-        if len(links)<len(df):
-            links.extend([""]*(len(df)-len(links)))
-        links=links[:len(df)]
-
         rows = []
 
         for i, row in df.iterrows():
             rows.append(
-                create_row(
-                    row,
-                    links[i]
-                )
+                create_row(row, links[i])
             )
 
-        csv_df = pd.DataFrame(rows, columns=CSV_COLUMNS)
-
-        excel_name = Path(file_path).stem
-
-        # 1行目を作成
-        first_row = {col: "" for col in CSV_COLUMNS}
-        first_row["買い物リスト名"] = f"{excel_name}_{sheet}"
-
-        # 先頭へ追加
-        csv_df = pd.concat(
-            [pd.DataFrame([first_row]), csv_df],
-            ignore_index=True
+        output_file = save_csv(
+            rows,
+            output_dir,
+            excel_name,
+            sheet
         )
-
-        output_file = output_dir / f"{excel_name}_{sheet}.csv"
-        csv_df = csv_df.reindex(columns=CSV_COLUMNS)
-
-        csv_df.to_csv(
-            output_file,
-            index=False,
-            encoding="utf-8-sig",
-            columns=CSV_COLUMNS
-        )
-
-        # ZIPファイル名（CSVと同じ名前）
-        zip_file = output_dir / f"{excel_name}_{sheet}.zip"
 
         # CSVをZIPに圧縮
         zip_file = create_zip(output_file)
 
         # CSVを削除
         output_file.unlink()
-
 
         print(f"✔ {zip_file.name} を作成しました")
 
