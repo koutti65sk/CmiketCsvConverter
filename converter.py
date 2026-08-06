@@ -2,6 +2,7 @@ from pathlib import Path
 
 from csv_builder import create_row
 from excel_reader import read_excel, get_hyperlinks
+print("読み込んでいるexcel_reader:", excel_reader.__file__)
 from zip_manager import create_zip
 from csv_writer import save_csv
 
