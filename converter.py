@@ -3,6 +3,9 @@ from pathlib import Path
 import pandas as pd
 from openpyxl import load_workbook
 
+from csv_builder import create_row
+from constants import CSV_COLUMNS
+
 def excel_to_csv(file_path, mode="1", max_rows=None):
     """
     ExcelをCSVへ変換しZIPを作成する
@@ -21,10 +24,6 @@ def excel_to_csv(file_path, mode="1", max_rows=None):
     """
 
     print(f"変換開始 : {file_path}")
-
-    columns = [
-        "ホール","スペース","サークル名","サークルメモ","サークルタグ","色","マップ番号","ピンX","ピンY","ピン型","ピン値","サークル画像","アイテム名","アイテム画像","単価","数量","アイテムメモ","アイテムタグ","チェック","買い物リスト名","買い物メモ"
-    ]
 
     def hyperlink_list(ws, header_name):
         header = {c.value:i+1 for i,c in enumerate(ws[1])}
@@ -73,67 +72,19 @@ def excel_to_csv(file_path, mode="1", max_rows=None):
         rows = []
 
         for i, row in df.iterrows():
+            rows.append(
+                create_row(
+                    row,
+                    links[i]
+                )
+            )
 
-            if pd.notna(row["サークル名"]) and str(row["サークル名"]).strip() != "":
-
-                # サークル行
-                rows.append({
-                    "ホール": row["地区"],
-                    "スペース": str(row["区分"] if pd.notna(row["区分"]) else "") +
-                            str(row["場所"] if pd.notna(row["場所"]) else ""),
-                    "サークル名": row["サークル名"],
-                    "サークルメモ": "",
-                    "サークルタグ": "お品書き@" + links[i] if links[i] else "",
-                    "色": 0,
-                    "マップ番号": 0,
-                    "ピンX": -1.0,
-                    "ピンY": -1.0,
-                    "ピン型": 0,
-                    "ピン値": 0,
-                    "サークル画像": "",
-                    "アイテム名": row["購入内容"],
-                    "アイテム画像": "",
-                    "単価": f"{float(row['金額']):.1f}" if pd.notna(row["金額"]) else "0.0",
-                    "数量": row["数量"],
-                    "アイテムメモ": row["メモ"],
-                    "アイテムタグ": "",
-                    "チェック": 0,
-                    "買い物リスト名": "",
-                    "買い物メモ": ""
-                })
-
-            else:
-                # アイテムだけ追加
-                rows.append({
-                    "ホール": "",
-                    "スペース": "",
-                    "サークル名": "",
-                    "サークルメモ": "",
-                    "サークルタグ": "",
-                    "色": "",
-                    "マップ番号": "",
-                    "ピンX": "",
-                    "ピンY": "",
-                    "ピン型": "",
-                    "ピン値": "",
-                    "サークル画像": "",
-                    "アイテム名": row["購入内容"],
-                    "アイテム画像": "",
-                    "単価": f"{float(row['金額']):.1f}" if pd.notna(row["金額"]) else "0.0",
-                    "数量": row["数量"],
-                    "アイテムメモ": row["メモ"],
-                    "アイテムタグ": "",
-                    "チェック": 0,
-                    "買い物リスト名": "",
-                    "買い物メモ": ""
-                })
-
-        csv_df = pd.DataFrame(rows, columns=columns)
+        csv_df = pd.DataFrame(rows, columns=CSV_COLUMNS)
 
         excel_name = Path(file_path).stem
 
         # 1行目を作成
-        first_row = {col: "" for col in columns}
+        first_row = {col: "" for col in CSV_COLUMNS}
         first_row["買い物リスト名"] = f"{excel_name}_{sheet}"
 
         # 先頭へ追加
@@ -143,13 +94,13 @@ def excel_to_csv(file_path, mode="1", max_rows=None):
         )
 
         output_file = output_dir / f"{excel_name}_{sheet}.csv"
-        csv_df = csv_df.reindex(columns=columns)
+        csv_df = csv_df.reindex(columns=CSV_COLUMNS)
 
         csv_df.to_csv(
             output_file,
             index=False,
             encoding="utf-8-sig",
-            columns=columns
+            columns=CSV_COLUMNS
         )
 
         # ZIPファイル名（CSVと同じ名前）
