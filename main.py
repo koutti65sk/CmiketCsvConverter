@@ -1,5 +1,3 @@
-print("新しいmain.pyです")
-
 from ui import start_ui
 
 if __name__ == "__main__":
