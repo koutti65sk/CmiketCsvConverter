@@ -16,6 +16,18 @@ class ConverterUI:
 
         self.create_widgets()
 
+        def add_log(self, message):
+            self.log_box.insert(
+                tk.END,
+                message + "\n"
+            )
+
+            self.log_box.see(
+                tk.END
+            )
+
+            self.root.update()
+
     def create_widgets(self):
         # タイトル
         title = tk.Label(
@@ -55,6 +67,17 @@ class ConverterUI:
         )
         self.status_label.pack(pady=10)
 
+        # ログ表示
+        self.log_box = tk.Text(
+            self.root,
+            height=8,
+            width=60
+        )
+
+        self.log_box.pack(
+            pady=10
+        )
+
 
     def select_file(self):
         file_path = filedialog.askopenfilename(
@@ -73,6 +96,7 @@ class ConverterUI:
 
 
     def convert(self):
+
         if not self.file_path:
             messagebox.showwarning(
                 "警告",
@@ -81,16 +105,17 @@ class ConverterUI:
             return
 
         try:
-            self.status_label.config(
-                text="変換中..."
+
+            self.add_log(
+                "変換開始..."
             )
 
-            self.root.update()
+            excel_to_csv(
+                self.file_path
+            )
 
-            excel_to_csv(self.file_path)
-
-            self.status_label.config(
-                text="完了"
+            self.add_log(
+                "変換完了"
             )
 
             messagebox.showinfo(
@@ -99,8 +124,10 @@ class ConverterUI:
             )
 
         except Exception as e:
-            import traceback
-            traceback.print_exc()
+
+            self.add_log(
+                f"エラー: {e}"
+            )
 
             messagebox.showerror(
                 "エラー",
