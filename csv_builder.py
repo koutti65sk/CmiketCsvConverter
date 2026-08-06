@@ -9,8 +9,7 @@ def create_row(row, link=""):
     if pd.notna(row["サークル名"]) and str(row["サークル名"]).strip() != "":
         return {
             "ホール": row["地区"],
-            "スペース": str(row["区分"] if pd.notna(row["区分"]) else "") +
-                    str(row["場所"] if pd.notna(row["場所"]) else ""),
+            "スペース": str(row["区分"] if pd.notna(row["区分"]) else "") + str(row["場所"] if pd.notna(row["場所"]) else ""),
             "サークル名": row["サークル名"],
             "サークルメモ": "",
             "サークルタグ": "お品書き@" + link if link else "",
