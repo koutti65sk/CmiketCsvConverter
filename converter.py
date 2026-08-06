@@ -55,8 +55,6 @@ def excel_to_csv(file_path, mode="1", max_rows=None):
             file_path,sheet_name=sheet,nrows=max_rows
         )
 
-        print("読み込んだ列:", df.columns.tolist())
-
         if mode == "1":
             df = df[df["購入内容"].notna()]
             df = df[df["購入内容"].astype(str).str.strip() != ""]
