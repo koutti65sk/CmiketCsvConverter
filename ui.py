@@ -13,10 +13,9 @@ class ConverterUI:
         self.root.resizable(False, False)
 
         self.file_path = None
+        self.log_box = None
 
         self.create_widgets()
-        self.file_path = None
-        self.log_box = None
 
     def add_log(self, message):
         self.log_box.insert(
@@ -119,10 +118,18 @@ class ConverterUI:
                 text="変換中..."
             )
 
+            self.add_log(
+                "変換開始..."
+            )
+
             self.root.update()
 
             excel_to_csv(
                 self.file_path
+            )
+
+            self.add_log(
+                "変換完了"
             )
 
             self.status_label.config(
@@ -133,18 +140,16 @@ class ConverterUI:
                 state="normal"
             )
 
+            messagebox.showinfo(
+                "完了",
+                "変換が完了しました"
+            )
+
         except Exception as e:
 
             self.convert_button.config(
                 state="normal"
             )
-
-            messagebox.showerror(
-                "エラー",
-                str(e)
-            )
-
-        except Exception as e:
 
             self.add_log(
                 f"エラー: {e}"
