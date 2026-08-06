@@ -1,10 +1,11 @@
-import zipfile
 from pathlib import Path
 import pandas as pd
 from openpyxl import load_workbook
 
 from csv_builder import create_row
 from constants import CSV_COLUMNS
+from excel_reader import get_hyperlinks
+from zip_manager import create_zip
 
 def excel_to_csv(file_path, mode="1", max_rows=None):
     """
@@ -24,20 +25,6 @@ def excel_to_csv(file_path, mode="1", max_rows=None):
     """
 
     print(f"変換開始 : {file_path}")
-
-    def hyperlink_list(ws, header_name):
-        header = {c.value:i+1 for i,c in enumerate(ws[1])}
-        if header_name not in header:
-            return []
-        col = header[header_name]
-        links=[]
-        for r in range(2, ws.max_row+1):
-            cell = ws.cell(r,col)
-            if cell.hyperlink:
-                links.append(cell.hyperlink.target)
-            else:
-                links.append("")
-        return links
 
     # Excelファイルを読み込む
     excel=pd.ExcelFile(file_path)
@@ -64,7 +51,7 @@ def excel_to_csv(file_path, mode="1", max_rows=None):
             df = df[df["購入内容"].astype(str).str.strip() != ""]
 
         ws=wb[sheet]
-        links=hyperlink_list(ws,"URL")
+        links = get_hyperlinks(ws, "URL")
         if len(links)<len(df):
             links.extend([""]*(len(df)-len(links)))
         links=links[:len(df)]
@@ -107,8 +94,7 @@ def excel_to_csv(file_path, mode="1", max_rows=None):
         zip_file = output_dir / f"{excel_name}_{sheet}.zip"
 
         # CSVをZIPに圧縮
-        with zipfile.ZipFile(zip_file, "w", zipfile.ZIP_DEFLATED) as zipf:
-            zipf.write(output_file, arcname=output_file.name)
+        zip_file = create_zip(output_file)
 
         # CSVを削除
         output_file.unlink()
