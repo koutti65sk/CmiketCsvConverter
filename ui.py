@@ -179,8 +179,7 @@ class ConverterUI:
         log_frame.pack(
             padx=10,
             pady=(0, 10),
-            fill="both",
-            expand=True
+            fill="both"
         )
 
         self.log_box = tk.Text(
