@@ -171,6 +171,18 @@ class ConverterUI:
         log_frame = tk.Frame(self.root)
         log_frame.pack(pady=10)
 
+        log_frame = tk.LabelFrame(
+            self.root,
+            text="ログ"
+        )
+
+        log_frame.pack(
+            padx=10,
+            pady=10,
+            fill="both",
+            expand=True
+        )
+
         self.log_box = tk.Text(
             log_frame,
             height=15,
@@ -187,7 +199,8 @@ class ConverterUI:
         )
 
         self.log_box.pack(
-            side="left"
+            padx=5,
+            pady=5
         )
 
         scrollbar.pack(
