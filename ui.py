@@ -10,13 +10,12 @@ from settings import load_settings
 from setting_ui import SettingUI
 
 class ConverterUI:
-    def __init__(self, root, on_saved=None):
+    def __init__(self, root):
         self.root = root
 
         self.root.title(APP_NAME)
         self.root.geometry(WINDOW_SIZE)
         self.root.resizable(False, False)
-        self.on_saved = on_saved
 
         self.file_path = None
         self.log_box = None
@@ -183,9 +182,10 @@ class ConverterUI:
 
     def reload_settings(self):
 
-        settings = load_settings()
+        self.settings = load_settings()
+
         self.mode.set(
-            settings["default_mode"]
+            self.settings["default_mode"]
         )
 
         self.max_rows.delete(
@@ -195,10 +195,11 @@ class ConverterUI:
 
         self.max_rows.insert(
             0,
-            str(settings["default_max_rows"])
+            str(self.settings["default_max_rows"])
         )
 
         self.change_mode()
+
 
     # 実行・変換部分
     def create_execute_frame(self):
