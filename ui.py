@@ -10,12 +10,13 @@ from settings import load_settings
 from setting_ui import SettingUI
 
 class ConverterUI:
-    def __init__(self, root):
+    def __init__(self, root, on_saved=None):
         self.root = root
 
         self.root.title(APP_NAME)
         self.root.geometry(WINDOW_SIZE)
         self.root.resizable(False, False)
+        self.on_saved = on_saved
 
         self.file_path = None
         self.log_box = None
@@ -175,7 +176,29 @@ class ConverterUI:
 
     # 設定画面を開く関数
     def open_settings(self):
-        SettingUI(self.root)
+        SettingUI(
+            self.root,
+            self.reload_settings
+        )
+
+    def reload_settings(self):
+
+        settings = load_settings()
+        self.mode.set(
+            settings["default_mode"]
+        )
+
+        self.max_rows.delete(
+            0,
+            tk.END
+        )
+
+        self.max_rows.insert(
+            0,
+            str(settings["default_max_rows"])
+        )
+
+        self.change_mode()
 
     # 実行・変換部分
     def create_execute_frame(self):
