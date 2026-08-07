@@ -13,7 +13,7 @@ def excel_to_csv(file_path, mode="1", max_rows=None, log_callback=None):
         else:
             print(message)
 
-    log(f"変換開始 : {file_path}", log_callback)
+    log(f"変換開始 : {file_path}")
 
     # 保存先は元ファイルと同じフォルダ
     output_dir = Path(file_path).parent
