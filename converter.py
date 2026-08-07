@@ -13,7 +13,7 @@ def excel_to_csv(file_path, mode="1", max_rows=None, log_callback=None):
         else:
             print(message)
 
-    log(f"変換開始 : {file_path}")
+    log(f"変換開始 : {file_path}", log_callback)
 
     # 保存先は元ファイルと同じフォルダ
     output_dir = Path(file_path).parent
@@ -21,14 +21,29 @@ def excel_to_csv(file_path, mode="1", max_rows=None, log_callback=None):
     excel_name = Path(file_path).stem
 
 
+    log(
+    "Excel読み込み中...",
+    log_callback
+)
+
     # 各シートをCSVに変換
     sheets = read_excel(
         file_path,
         max_rows
     )
 
+    log(
+        f"{len(sheets)}個のシートを検出",
+        log_callback
+    )
+
 
     for sheet_data in sheets:
+
+        log(
+            f"{sheet} を変換中...",
+            log_callback
+        )
 
         sheet = sheet_data["name"]
         df = sheet_data["df"]
@@ -63,6 +78,11 @@ def excel_to_csv(file_path, mode="1", max_rows=None, log_callback=None):
             sheet
         )
 
+
+        log(
+            "ZIP作成中...",
+            log_callback
+        )
         # CSVをZIPに圧縮
         zip_file = create_zip(output_file)
 
