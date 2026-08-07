@@ -12,6 +12,20 @@ class ConverterUI:
         self.root.geometry("600x350")
         self.root.resizable(False, False)
 
+        def change_mode(self):
+
+            if self.mode.get() == "1":
+
+                self.max_rows.config(
+                    state="disabled"
+                )
+
+            else:
+
+                self.max_rows.config(
+                    state="normal"
+                )
+
         self.file_path = None
         self.log_box = None
 
@@ -69,6 +83,7 @@ class ConverterUI:
             text="購入内容が空白まで",
             variable=self.mode,
             value="1"
+            command=self.change_mode
         )
 
         radio1.pack()
@@ -79,6 +94,7 @@ class ConverterUI:
             text="指定行まで",
             variable=self.mode,
             value="2"
+            command=self.change_mode
         )
 
         radio2.pack()
