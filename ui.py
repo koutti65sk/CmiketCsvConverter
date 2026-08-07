@@ -84,9 +84,20 @@ class ConverterUI:
         )
         select_button.pack(pady=5)
 
+        setting_frame = tk.LabelFrame(
+            self.root,
+            text="変換設定"
+        )
+
+        setting_frame.pack(
+            padx=10,
+            pady=10,
+            fill="x"
+        )
+
         # ラベルを追加
         mode_label = tk.Label(
-            self.root,
+            setting_frame,
             text="読み込み方法"
         )
 
@@ -94,7 +105,7 @@ class ConverterUI:
 
         # ラジオボタン1の追加
         radio1 = tk.Radiobutton(
-            self.root,
+            setting_frame,
             text="購入内容が空白まで",
             variable=self.mode,
             value="1",
@@ -105,7 +116,7 @@ class ConverterUI:
 
         # ラジオボタン2の追加
         radio2 = tk.Radiobutton(
-            self.root,
+            setting_frame,
             text="指定行まで",
             variable=self.mode,
             value="2",
@@ -116,7 +127,7 @@ class ConverterUI:
 
         # ラジオボタン2のテキスト追加
         self.max_rows = tk.Entry(
-            self.root,
+            setting_frame,
             width=10
         )
 
