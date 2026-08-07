@@ -57,46 +57,7 @@ class ConverterUI:
         self.create_file_frame()
         self.create_setting_frame()
         self.create_execute_frame()
-
-        # ログ表示
-        log_frame = tk.LabelFrame(
-            self.root,
-            text="ログ"
-        )
-
-        log_frame.pack(
-            padx=10,
-            pady=(0, 5),
-            fill="both",
-            expand=True
-        )
-
-        self.log_box = tk.Text(
-            log_frame,
-            height=15,
-            width=70
-        )
-
-        scrollbar = tk.Scrollbar(
-            log_frame,
-            command=self.log_box.yview
-        )
-
-        self.log_box.configure(
-            yscrollcommand=scrollbar.set
-        )
-
-        scrollbar.pack(
-            side="right",
-            fill="y"
-        )
-
-        self.log_box.pack(
-            padx=5,
-            pady=5,
-            fill="both",
-            expand=True
-        )
+        self.create_log_frame()
 
 
     # ファイル選択部分
@@ -133,7 +94,7 @@ class ConverterUI:
             pady=5
         )
 
-
+    # 変換設定部分
     def create_setting_frame(self):
         setting_frame = tk.LabelFrame(
             self.root,
@@ -193,6 +154,7 @@ class ConverterUI:
 
         self.change_mode()
 
+    # 実行・変換部分
     def create_execute_frame(self):
         execute_frame = tk.LabelFrame(
             self.root,
@@ -226,6 +188,51 @@ class ConverterUI:
             pady=5
         )
 
+    # ログ出力部分
+    def create_log_frame(self):
+        log_frame = tk.LabelFrame(
+            self.root,
+            text="ログ"
+        )
+
+        log_frame.pack(
+            padx=10,
+            pady=(0, 5),
+            fill="both",
+            expand=True
+        )
+
+
+        self.log_box = tk.Text(
+            log_frame,
+            height=15,
+            width=70
+        )
+
+
+        scrollbar = tk.Scrollbar(
+            log_frame,
+            command=self.log_box.yview
+        )
+
+
+        self.log_box.configure(
+            yscrollcommand=scrollbar.set
+        )
+
+
+        scrollbar.pack(
+            side="right",
+            fill="y"
+        )
+
+
+        self.log_box.pack(
+            padx=5,
+            pady=5,
+            fill="both",
+            expand=True
+        )
 
 
     def select_file(self):
