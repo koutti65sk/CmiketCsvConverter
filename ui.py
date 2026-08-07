@@ -7,6 +7,7 @@ from config import (
     WINDOW_SIZE
 )
 from settings import load_settings
+from setting_ui import SettingUI
 
 class ConverterUI:
     def __init__(self, root):
@@ -61,6 +62,16 @@ class ConverterUI:
         )
 
         title.pack(pady=20)
+
+        setting_button = tk.Button(
+                self.root,
+                text="設定",
+                command=self.open_settings
+            )
+
+        setting_button.pack(
+            pady=5
+        )
 
         self.create_file_frame()
         self.create_setting_frame()
@@ -161,6 +172,10 @@ class ConverterUI:
 
 
         self.change_mode()
+
+    # 設定画面を開く関数
+    def open_settings(self):
+        SettingUI(self.root)
 
     # 実行・変換部分
     def create_execute_frame(self):
@@ -332,6 +347,6 @@ class ConverterUI:
 def start_ui():
     root = tk.Tk()
 
-    app = ConverterUI(root)
+    ConverterUI(root)
 
     root.mainloop()
