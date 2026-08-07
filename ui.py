@@ -125,7 +125,8 @@ class ConverterUI:
             self.root.update()
 
             excel_to_csv(
-                self.file_path
+                self.file_path,
+                log_callback=self.add_log
             )
 
             self.add_log(

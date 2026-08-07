@@ -5,24 +5,15 @@ from excel_reader import read_excel, get_hyperlinks
 from zip_manager import create_zip
 from csv_writer import save_csv
 
-def excel_to_csv(file_path, mode="1", max_rows=None):
-    """
-    ExcelをCSVへ変換しZIPを作成する
+def excel_to_csv(file_path, mode="1", max_rows=None, log_callback=None):
 
-    Parameters
-    ----------
-    file_path : str
-        Excelファイルのパス
+    def log(message):
+        if log_callback:
+            log_callback(message)
+        else:
+            print(message)
 
-    mode : str
-        "1" = 購入内容が空白まで
-        "2" = 指定行まで
-
-    max_rows : int | None
-        mode="2" の時だけ使用
-    """
-
-    print(f"変換開始 : {file_path}")
+    log(f"変換開始 : {file_path}")
 
     # 保存先は元ファイルと同じフォルダ
     output_dir = Path(file_path).parent
@@ -51,7 +42,7 @@ def excel_to_csv(file_path, mode="1", max_rows=None):
         links = links[:len(df)]
 
         if "購入内容" not in df.columns:
-            print(f"{sheet} に購入内容列がありません")
+            log(f"{sheet} に購入内容列がありません")
             continue
 
         if mode == "1":
@@ -78,7 +69,7 @@ def excel_to_csv(file_path, mode="1", max_rows=None):
         # CSVを削除
         output_file.unlink()
 
-        print(f"✔ {zip_file.name} を作成しました")
+        log(f"✔ {zip_file.name} を作成しました")
 
 
-    print("\nすべてのシートの変換が完了しました。")
+    log("すべてのシートの変換が完了しました。")
