@@ -135,7 +135,7 @@ class ConverterUI:
         log_frame.pack(pady=10)
 
         self.log_box = tk.Text(
-            self.root,
+            log_frame,
             height=15,
             width=70
         )
