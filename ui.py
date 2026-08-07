@@ -56,34 +56,7 @@ class ConverterUI:
 
         self.create_file_frame()
         self.create_setting_frame()
-
-        execute_frame = tk.LabelFrame(
-            self.root,
-            text="実行"
-        )
-
-        execute_frame.pack(
-            padx=10,
-            pady=10,
-            fill="x"
-        )
-
-        # 変換ボタン
-        self.convert_button = tk.Button(
-            execute_frame,
-            text="CSVへ変換",
-            command=self.convert
-        )
-
-        self.convert_button.pack(
-            pady=10
-        )
-
-        self.status_label = tk.Label(
-            execute_frame,
-            text="待機中"
-        )
-        self.status_label.pack(pady=5)
+        self.create_execute_frame()
 
         # ログ表示
         log_frame = tk.LabelFrame(
@@ -219,6 +192,39 @@ class ConverterUI:
 
 
         self.change_mode()
+
+    def create_execute_frame(self):
+        execute_frame = tk.LabelFrame(
+            self.root,
+            text="実行"
+        )
+
+        execute_frame.pack(
+            padx=10,
+            pady=10,
+            fill="x"
+        )
+
+
+        self.convert_button = tk.Button(
+            execute_frame,
+            text="CSVへ変換",
+            command=self.convert
+        )
+
+        self.convert_button.pack(
+            pady=10
+        )
+
+
+        self.status_label = tk.Label(
+            execute_frame,
+            text="待機中"
+        )
+
+        self.status_label.pack(
+            pady=5
+        )
 
 
 
