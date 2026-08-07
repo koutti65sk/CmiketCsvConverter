@@ -9,7 +9,7 @@ class ConverterUI:
         self.root = root
 
         self.root.title("Excel CSV Converter")
-        self.root.geometry("600x350")
+        self.root.geometry("600x550")
         self.root.resizable(False, False)
 
         self.file_path = None
@@ -131,14 +131,31 @@ class ConverterUI:
         self.status_label.pack(pady=10)
 
         # ログ表示
+        log_frame = tk.Frame(self.root)
+        log_frame.pack(pady=10)
+
         self.log_box = tk.Text(
             self.root,
-            height=8,
-            width=60
+            height=15,
+            width=70
+        )
+
+        scrollbar = tk.Scrollbar(
+            log_frame,
+            command=self.log_box.yview
+        )
+
+        self.log_box.configure(
+            yscrollcommand=scrollbar.set
         )
 
         self.log_box.pack(
-            pady=10
+            side="left"
+        )
+
+        scrollbar.pack(
+            side="right",
+            fill="y"
         )
 
 
