@@ -119,6 +119,8 @@ if __name__ == "__main__":
 
     root = tk.Tk()
 
+    root.withdraw()
+
     SettingUI(root)
 
     root.mainloop()
