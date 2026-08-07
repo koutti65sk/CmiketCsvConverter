@@ -211,7 +211,8 @@ class ConverterUI:
             excel_to_csv(
                 self.file_path,
                 mode=self.mode.get(),
-                max_rows=max_rows
+                max_rows=max_rows,
+                log_callback=self.add_log
             )
 
             self.add_log(
