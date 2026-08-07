@@ -146,7 +146,7 @@ class ConverterUI:
 
         self.max_rows.insert(
             0,
-            "1000"
+            "120"
         )
 
         self.max_rows.pack()
