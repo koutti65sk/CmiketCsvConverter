@@ -4,10 +4,9 @@ from tkinter import filedialog, messagebox
 from converter import excel_to_csv
 from config import (
     APP_NAME,
-    WINDOW_SIZE,
-    DEFAULT_MAX_ROWS
+    WINDOW_SIZE
 )
-
+from settings import load_settings
 
 class ConverterUI:
     def __init__(self, root):
@@ -20,7 +19,11 @@ class ConverterUI:
         self.file_path = None
         self.log_box = None
 
-        self.mode = tk.StringVar(value="1")
+        self.settings = load_settings()
+
+        self.mode = tk.StringVar(
+            value=self.settings["default_mode"]
+        )
         self.create_widgets()
 
     def add_log(self, message):
@@ -151,7 +154,7 @@ class ConverterUI:
 
         self.max_rows.insert(
             0,
-            DEFAULT_MAX_ROWS
+            str(self.settings["default_max_rows"])
         )
 
         self.max_rows.pack()
