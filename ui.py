@@ -10,6 +10,7 @@ from config import (
 from settings import load_settings
 from setting_ui import SettingUI
 from ui_parts.log_frame import LogFrame
+from ui_parts.file_frame import FileFrame
 
 class ConverterUI:
     def __init__(self, root):
@@ -83,47 +84,18 @@ class ConverterUI:
             pady=5
         )
 
-        self.create_file_frame()
+        self.file_frame = FileFrame(
+            self.root,
+            self.file_selected
+        )
         self.create_setting_frame()
         self.create_execute_frame()
         self.log_frame = LogFrame(
             self.root
         )
 
-
-    # ファイル選択部分
-    def create_file_frame(self):
-        file_frame = tk.LabelFrame(
-            self.root,
-            text="ファイル選択"
-        )
-
-        file_frame.pack(
-            padx=10,
-            pady=10,
-            fill="x"
-        )
-
-        self.file_label = tk.Label(
-            file_frame,
-            text="Excelファイルが選択されていません",
-            wraplength=450
-        )
-
-        self.file_label.pack(
-            padx=10,
-            pady=5
-        )
-
-        select_button = tk.Button(
-            file_frame,
-            text="Excelを選択",
-            command=self.select_file
-        )
-
-        select_button.pack(
-            pady=5
-        )
+    def file_selected(self, file_path):
+        self.file_path = file_path
 
     # 変換設定部分
     def create_setting_frame(self):
@@ -246,23 +218,6 @@ class ConverterUI:
         self.status_label.pack(
             pady=5
         )
-
-
-    def select_file(self):
-        file_path = filedialog.askopenfilename(
-            title="変換するExcelファイルを選択",
-            filetypes=[
-                ("Excelファイル", "*.xlsx"),
-                ("Excelファイル", "*.xls")
-            ]
-        )
-
-        if file_path:
-            self.file_path = file_path
-            self.file_label.config(
-                text=file_path
-            )
-
 
     def convert(self):
 
