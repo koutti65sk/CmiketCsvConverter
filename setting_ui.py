@@ -6,7 +6,7 @@ from settings import load_settings, save_settings
 
 class SettingUI:
 
-    def __init__(self, parent):
+    def __init__(self, parent, on_saved=None):
 
         self.window = tk.Toplevel(parent)
 
@@ -14,6 +14,7 @@ class SettingUI:
         self.window.geometry("400x300")
         self.window.resizable(False, False)
 
+        self.on_saved = on_saved
 
         self.settings = load_settings()
 
@@ -111,6 +112,9 @@ class SettingUI:
             "保存",
             "設定を保存しました"
         )
+
+        if self.on_saved:
+            self.on_saved()
 
         self.window.destroy()
 
