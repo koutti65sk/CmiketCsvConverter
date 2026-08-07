@@ -163,14 +163,11 @@ class ConverterUI:
 
         self.status_label = tk.Label(
             execute_frame,
-            text=""
+            text="待機中"
         )
         self.status_label.pack(pady=5)
 
         # ログ表示
-        log_frame = tk.Frame(self.root)
-        log_frame.pack(pady=10)
-
         log_frame = tk.LabelFrame(
             self.root,
             text="ログ"
@@ -178,8 +175,9 @@ class ConverterUI:
 
         log_frame.pack(
             padx=10,
-            pady=(0, 10),
-            fill="both"
+            pady=(0, 5),
+            fill="both",
+            expand=True
         )
 
         self.log_box = tk.Text(
