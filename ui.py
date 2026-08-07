@@ -12,20 +12,6 @@ class ConverterUI:
         self.root.geometry("600x350")
         self.root.resizable(False, False)
 
-        def change_mode(self):
-
-            if self.mode.get() == "1":
-
-                self.max_rows.config(
-                    state="disabled"
-                )
-
-            else:
-
-                self.max_rows.config(
-                    state="normal"
-                )
-
         self.file_path = None
         self.log_box = None
 
@@ -43,6 +29,20 @@ class ConverterUI:
         )
 
         self.root.update()
+
+    def change_mode(self):
+
+        if self.mode.get() == "1":
+
+            self.max_rows.config(
+                state="disabled"
+            )
+
+        else:
+
+            self.max_rows.config(
+                state="normal"
+            )
 
     def create_widgets(self):
         # タイトル
