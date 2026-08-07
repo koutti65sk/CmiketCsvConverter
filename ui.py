@@ -60,7 +60,7 @@ class ConverterUI:
 
         file_frame.pack(
             padx=10,
-            pady=11,
+            pady=10,
             fill="x"
         )
 
@@ -139,9 +139,20 @@ class ConverterUI:
         self.max_rows.pack()
         self.change_mode()
 
+        execute_frame = tk.LabelFrame(
+            self.root,
+            text="実行"
+        )
+
+        execute_frame.pack(
+            padx=10,
+            pady=10,
+            fill="x"
+        )
+
         # 変換ボタン
         self.convert_button = tk.Button(
-            self.root,
+            execute_frame,
             text="CSVへ変換",
             command=self.convert
         )
@@ -151,10 +162,10 @@ class ConverterUI:
         )
 
         self.status_label = tk.Label(
-            self.root,
+            execute_frame,
             text=""
         )
-        self.status_label.pack(pady=10)
+        self.status_label.pack(pady=5)
 
         # ログ表示
         log_frame = tk.Frame(self.root)
