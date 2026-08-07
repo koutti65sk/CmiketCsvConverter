@@ -23,7 +23,6 @@ def excel_to_csv(file_path, mode="1", max_rows=None, log_callback=None):
 
     log(
     "Excel読み込み中...",
-    log_callback
 )
 
     # 各シートをCSVに変換
@@ -34,20 +33,18 @@ def excel_to_csv(file_path, mode="1", max_rows=None, log_callback=None):
 
     log(
         f"{len(sheets)}個のシートを検出",
-        log_callback
     )
 
 
     for sheet_data in sheets:
 
-        log(
-            f"{sheet} を変換中...",
-            log_callback
-        )
-
         sheet = sheet_data["name"]
         df = sheet_data["df"]
         ws = sheet_data["ws"]
+
+        log(
+            f"{sheet} を変換中...",
+        )
 
         links = get_hyperlinks(ws, "URL")
 
@@ -81,7 +78,6 @@ def excel_to_csv(file_path, mode="1", max_rows=None, log_callback=None):
 
         log(
             "ZIP作成中...",
-            log_callback
         )
         # CSVをZIPに圧縮
         zip_file = create_zip(output_file)
