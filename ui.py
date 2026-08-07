@@ -9,9 +9,11 @@ from config import (
 )
 from settings import load_settings
 from setting_ui import SettingUI
+
 from ui_parts.log_frame import LogFrame
 from ui_parts.file_frame import FileFrame
 from ui_parts.setting_frame import SettingFrame
+from ui_parts.execute_frame import ExecuteFrame
 
 class ConverterUI:
     def __init__(self, root):
@@ -62,7 +64,10 @@ class ConverterUI:
             self.root,
             self.settings
         )
-        self.create_execute_frame()
+        self.execute_frame = ExecuteFrame(
+            self.root,
+            self.convert
+        )
         self.log_frame = LogFrame(
             self.root
         )
@@ -101,40 +106,6 @@ class ConverterUI:
 
         self.setting_frame.change_mode()
 
-    # 実行・変換部分
-    def create_execute_frame(self):
-        execute_frame = tk.LabelFrame(
-            self.root,
-            text="実行"
-        )
-
-        execute_frame.pack(
-            padx=10,
-            pady=10,
-            fill="x"
-        )
-
-
-        self.convert_button = tk.Button(
-            execute_frame,
-            text="CSVへ変換",
-            command=self.convert
-        )
-
-        self.convert_button.pack(
-            pady=10
-        )
-
-
-        self.status_label = tk.Label(
-            execute_frame,
-            text="待機中"
-        )
-
-        self.status_label.pack(
-            pady=5
-        )
-
     def convert(self):
 
         if not self.file_path:
@@ -144,12 +115,10 @@ class ConverterUI:
             )
             return
 
-        self.convert_button.config(
-            state="disabled"
-        )
+        self.execute_frame.disable_button()
 
-        self.status_label.config(
-            text="変換中..."
+        self.execute_frame.set_status(
+            "変換中..."
         )
 
         self.add_log(
@@ -197,13 +166,11 @@ class ConverterUI:
             "変換完了"
         )
 
-        self.status_label.config(
-            text="完了"
+        self.execute_frame.set_status(
+            "完了"
         )
 
-        self.convert_button.config(
-            state="normal"
-        )
+        self.execute_frame.enable_button()
 
         messagebox.showinfo(
             "完了",
@@ -216,12 +183,10 @@ class ConverterUI:
             f"エラー: {e}"
         )
 
-        self.convert_button.config(
-            state="normal"
-        )
+        self.execute_frame.enable_button()
 
-        self.status_label.config(
-            text="エラー"
+        self.execute_frame.set_status(
+            "エラー"
         )
 
         messagebox.showerror(
