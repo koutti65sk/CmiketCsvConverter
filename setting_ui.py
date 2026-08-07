@@ -1,0 +1,124 @@
+import tkinter as tk
+from tkinter import messagebox
+
+from settings import load_settings, save_settings
+
+
+class SettingUI:
+
+    def __init__(self, parent):
+
+        self.window = tk.Toplevel(parent)
+
+        self.window.title("設定")
+        self.window.geometry("400x300")
+        self.window.resizable(False, False)
+
+
+        self.settings = load_settings()
+
+        self.create_widgets()
+
+
+    def create_widgets(self):
+
+        # 読み込み方法
+        mode_label = tk.Label(
+            self.window,
+            text="読み込み方法"
+        )
+
+        mode_label.pack(
+            pady=(20, 5)
+        )
+
+
+        self.mode = tk.StringVar(
+            value=self.settings["default_mode"]
+        )
+
+
+        radio1 = tk.Radiobutton(
+            self.window,
+            text="購入内容が空白まで",
+            variable=self.mode,
+            value="1"
+        )
+
+        radio1.pack()
+
+
+        radio2 = tk.Radiobutton(
+            self.window,
+            text="指定行まで",
+            variable=self.mode,
+            value="2"
+        )
+
+        radio2.pack()
+
+
+        # 行数
+        rows_label = tk.Label(
+            self.window,
+            text="読み込み行数"
+        )
+
+        rows_label.pack(
+            pady=(10,0)
+        )
+
+
+        self.max_rows = tk.Entry(
+            self.window
+        )
+
+        self.max_rows.insert(
+            0,
+            str(self.settings["default_max_rows"])
+        )
+
+        self.max_rows.pack()
+
+
+        # 保存ボタン
+        save_button = tk.Button(
+            self.window,
+            text="保存",
+            command=self.save
+        )
+
+        save_button.pack(
+            pady=20
+        )
+
+
+    def save(self):
+
+        self.settings["default_mode"] = self.mode.get()
+
+        self.settings["default_max_rows"] = int(
+            self.max_rows.get()
+        )
+
+
+        save_settings(
+            self.settings
+        )
+
+
+        messagebox.showinfo(
+            "保存",
+            "設定を保存しました"
+        )
+
+        self.window.destroy()
+
+
+if __name__ == "__main__":
+
+    root = tk.Tk()
+
+    SettingUI(root)
+
+    root.mainloop()
