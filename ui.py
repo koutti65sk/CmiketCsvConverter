@@ -51,38 +51,10 @@ class ConverterUI:
             text="Excel CSV Converter",
             font=("Arial", 16)
         )
+
         title.pack(pady=20)
 
-        file_frame = tk.LabelFrame(
-            self.root,
-            text="ファイル選択"
-        )
-
-        file_frame.pack(
-            padx=10,
-            pady=10,
-            fill="x"
-        )
-
-        # ファイルパス表示
-        self.file_label = tk.Label(
-            file_frame,
-            text="Excelファイルが選択されていません",
-            wraplength=450
-        )
-
-        self.file_label.pack(
-            padx=10,
-            pady=5
-        )
-
-        # Excel選択ボタン
-        select_button = tk.Button(
-            file_frame,
-            text="Excelを選択",
-            command=self.select_file
-        )
-        select_button.pack(pady=5)
+        self.create_file_frame()
 
         setting_frame = tk.LabelFrame(
             self.root,
@@ -206,6 +178,42 @@ class ConverterUI:
             fill="both",
             expand=True
         )
+
+
+    # ファイル選択部分
+    def create_file_frame(self):
+        file_frame = tk.LabelFrame(
+            self.root,
+            text="ファイル選択"
+        )
+
+        file_frame.pack(
+            padx=10,
+            pady=10,
+            fill="x"
+        )
+
+        self.file_label = tk.Label(
+            file_frame,
+            text="Excelファイルが選択されていません",
+            wraplength=450
+        )
+
+        self.file_label.pack(
+            padx=10,
+            pady=5
+        )
+
+        select_button = tk.Button(
+            file_frame,
+            text="Excelを選択",
+            command=self.select_file
+        )
+
+        select_button.pack(
+            pady=5
+        )
+
 
 
     def select_file(self):
