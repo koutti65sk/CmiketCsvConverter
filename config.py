@@ -1,0 +1,5 @@
+APP_NAME = "Excel CSV Converter"
+
+WINDOW_SIZE = "600x550"
+
+DEFAULT_MAX_ROWS = "120"

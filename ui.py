@@ -2,14 +2,19 @@ import tkinter as tk
 from tkinter import filedialog, messagebox
 
 from converter import excel_to_csv
+from config import (
+    APP_NAME,
+    WINDOW_SIZE,
+    DEFAULT_MAX_ROWS
+)
 
 
 class ConverterUI:
     def __init__(self, root):
         self.root = root
 
-        self.root.title("Excel CSV Converter")
-        self.root.geometry("600x550")
+        self.root.title(APP_NAME)
+        self.root.geometry(WINDOW_SIZE)
         self.root.resizable(False, False)
 
         self.file_path = None
@@ -146,7 +151,7 @@ class ConverterUI:
 
         self.max_rows.insert(
             0,
-            "120"
+            DEFAULT_MAX_ROWS
         )
 
         self.max_rows.pack()
