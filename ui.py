@@ -169,9 +169,15 @@ class ConverterUI:
             print(self.mode.get())
             print(self.max_rows.get())
 
+            if self.mode.get() == "2":
+                max_rows = int(self.max_rows.get())
+            else:
+                max_rows = None
+
             excel_to_csv(
                 self.file_path,
-                log_callback=self.add_log
+                mode=self.mode.get(),
+                max_rows=max_rows
             )
 
             self.add_log(
