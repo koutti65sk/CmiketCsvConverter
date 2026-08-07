@@ -60,7 +60,7 @@ class ConverterUI:
 
         file_frame.pack(
             padx=10,
-            pady=10,
+            pady=11,
             fill="x"
         )
 
