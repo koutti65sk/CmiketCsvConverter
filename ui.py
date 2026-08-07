@@ -111,6 +111,7 @@ class ConverterUI:
         )
 
         self.max_rows.pack()
+        self.change_mode()
 
         # 変換ボタン
         self.convert_button = tk.Button(
