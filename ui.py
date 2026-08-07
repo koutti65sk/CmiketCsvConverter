@@ -1,5 +1,6 @@
 import tkinter as tk
 from tkinter import filedialog, messagebox
+import threading
 
 from converter import excel_to_csv
 from config import (
@@ -28,6 +29,16 @@ class ConverterUI:
         self.create_widgets()
 
     def add_log(self, message):
+
+        self.root.after(
+            0,
+            self._add_log,
+            message
+        )
+
+
+    def _add_log(self, message):
+
         self.log_box.insert(
             tk.END,
             message + "\n"
@@ -36,8 +47,6 @@ class ConverterUI:
         self.log_box.see(
             tk.END
         )
-
-        self.root.update()
 
     def change_mode(self):
 
@@ -180,6 +189,7 @@ class ConverterUI:
             self.reload_settings
         )
 
+    # 設定のメイン反映
     def reload_settings(self):
 
         self.settings = load_settings()
@@ -199,7 +209,6 @@ class ConverterUI:
         )
 
         self.change_mode()
-
 
     # 実行・変換部分
     def create_execute_frame(self):
@@ -307,27 +316,35 @@ class ConverterUI:
             )
             return
 
+        self.convert_button.config(
+            state="disabled"
+        )
+
+        self.status_label.config(
+            text="変換中..."
+        )
+
+        self.add_log(
+            "変換開始..."
+        )
+
+        self.root.update()
+
+        if self.mode.get() == "2":
+            max_rows = int(self.max_rows.get())
+        else:
+            max_rows = None
+
+
+        threading.Thread(
+            target=self.run_conversion,
+            args=(max_rows,),
+            daemon=True
+        ).start()
+
+
+    def run_conversion(self, max_rows):
         try:
-
-            self.convert_button.config(
-                state="disabled"
-            )
-
-            self.status_label.config(
-                text="変換中..."
-            )
-
-            self.add_log(
-                "変換開始..."
-            )
-
-            self.root.update()
-
-            if self.mode.get() == "2":
-                max_rows = int(self.max_rows.get())
-            else:
-                max_rows = None
-
             excel_to_csv(
                 self.file_path,
                 mode=self.mode.get(),
@@ -335,37 +352,55 @@ class ConverterUI:
                 log_callback=self.add_log
             )
 
-            self.add_log(
-                "変換完了"
-            )
-
-            self.status_label.config(
-                text="完了"
-            )
-
-            self.convert_button.config(
-                state="normal"
-            )
-
-            messagebox.showinfo(
-                "完了",
-                "変換が完了しました"
+            self.root.after(
+                0,
+                self.finish_conversion
             )
 
         except Exception as e:
 
-            self.convert_button.config(
-                state="normal"
+            self.root.after(
+                0,
+                lambda: self.show_error(e)
             )
 
-            self.add_log(
-                f"エラー: {e}"
-            )
 
-            messagebox.showerror(
-                "エラー",
-                str(e)
-            )
+    def finish_conversion(self):
+        self.add_log(
+            "変換完了"
+        )
+
+        self.status_label.config(
+            text="完了"
+        )
+
+        self.convert_button.config(
+            state="normal"
+        )
+
+        messagebox.showinfo(
+            "完了",
+            "変換が完了しました"
+        )
+
+
+    def show_error(self, e):
+        self.add_log(
+            f"エラー: {e}"
+        )
+
+        self.convert_button.config(
+            state="normal"
+        )
+
+        self.status_label.config(
+            text="エラー"
+        )
+
+        messagebox.showerror(
+            "エラー",
+            str(e)
+        )
 
 
 def start_ui():
