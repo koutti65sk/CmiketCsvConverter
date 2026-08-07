@@ -55,61 +55,7 @@ class ConverterUI:
         title.pack(pady=20)
 
         self.create_file_frame()
-
-        setting_frame = tk.LabelFrame(
-            self.root,
-            text="変換設定"
-        )
-
-        setting_frame.pack(
-            padx=10,
-            pady=10,
-            fill="x"
-        )
-
-        # ラベルを追加
-        mode_label = tk.Label(
-            setting_frame,
-            text="読み込み方法"
-        )
-
-        mode_label.pack(pady=(10, 0))
-
-        # ラジオボタン1の追加
-        radio1 = tk.Radiobutton(
-            setting_frame,
-            text="購入内容が空白まで",
-            variable=self.mode,
-            value="1",
-            command=self.change_mode
-        )
-
-        radio1.pack()
-
-        # ラジオボタン2の追加
-        radio2 = tk.Radiobutton(
-            setting_frame,
-            text="指定行まで",
-            variable=self.mode,
-            value="2",
-            command=self.change_mode
-        )
-
-        radio2.pack()
-
-        # ラジオボタン2のテキスト追加
-        self.max_rows = tk.Entry(
-            setting_frame,
-            width=10
-        )
-
-        self.max_rows.insert(
-            0,
-            "1000"
-        )
-
-        self.max_rows.pack()
-        self.change_mode()
+        self.create_setting_frame()
 
         execute_frame = tk.LabelFrame(
             self.root,
@@ -213,6 +159,66 @@ class ConverterUI:
         select_button.pack(
             pady=5
         )
+
+
+    def create_setting_frame(self):
+        setting_frame = tk.LabelFrame(
+            self.root,
+            text="変換設定"
+        )
+
+        setting_frame.pack(
+            padx=10,
+            pady=10,
+            fill="x"
+        )
+
+        mode_label = tk.Label(
+            setting_frame,
+            text="読み込み方法"
+        )
+
+        mode_label.pack(
+            pady=(10, 0)
+        )
+
+
+        radio1 = tk.Radiobutton(
+            setting_frame,
+            text="購入内容が空白まで",
+            variable=self.mode,
+            value="1",
+            command=self.change_mode
+        )
+
+        radio1.pack()
+
+
+        radio2 = tk.Radiobutton(
+            setting_frame,
+            text="指定行まで",
+            variable=self.mode,
+            value="2",
+            command=self.change_mode
+        )
+
+        radio2.pack()
+
+
+        self.max_rows = tk.Entry(
+            setting_frame,
+            width=10
+        )
+
+        self.max_rows.insert(
+            0,
+            "1000"
+        )
+
+        self.max_rows.pack()
+
+
+        self.change_mode()
 
 
 
