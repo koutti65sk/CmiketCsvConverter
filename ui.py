@@ -15,6 +15,7 @@ class ConverterUI:
         self.file_path = None
         self.log_box = None
 
+        self.mode = tk.StringVar(value="1")
         self.create_widgets()
 
     def add_log(self, message):
@@ -53,6 +54,34 @@ class ConverterUI:
             command=self.select_file
         )
         select_button.pack(pady=10)
+
+        # ラベルを追加
+        mode_label = tk.Label(
+            self.root,
+            text="読み込み方法"
+        )
+
+        mode_label.pack(pady=(10, 0))
+
+        # ラジオボタン1の追加
+        radio1 = tk.Radiobutton(
+            self.root,
+            text="購入内容が空白まで",
+            variable=self.mode,
+            value="1"
+        )
+
+        radio1.pack()
+
+        # ラジオボタン2の追加
+        radio2 = tk.Radiobutton(
+            self.root,
+            text="指定行まで",
+            variable=self.mode,
+            value="2"
+        )
+
+        radio2.pack()
 
         # 変換ボタン
         self.convert_button = tk.Button(
@@ -123,6 +152,8 @@ class ConverterUI:
             )
 
             self.root.update()
+
+            print(self.mode.get())
 
             excel_to_csv(
                 self.file_path,
