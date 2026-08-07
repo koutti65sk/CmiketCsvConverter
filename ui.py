@@ -195,14 +195,16 @@ class ConverterUI:
             yscrollcommand=scrollbar.set
         )
 
-        self.log_box.pack(
-            padx=5,
-            pady=5
-        )
-
         scrollbar.pack(
             side="right",
             fill="y"
+        )
+
+        self.log_box.pack(
+            padx=5,
+            pady=5,
+            fill="both",
+            expand=True
         )
 
 
