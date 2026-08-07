@@ -83,6 +83,19 @@ class ConverterUI:
 
         radio2.pack()
 
+        # ラジオボタン2のテキスト追加
+        self.max_rows = tk.Entry(
+            self.root,
+            width=10
+        )
+
+        self.max_rows.insert(
+            0,
+            "1000"
+        )
+
+        self.max_rows.pack()
+
         # 変換ボタン
         self.convert_button = tk.Button(
             self.root,
