@@ -81,6 +81,26 @@ class ConverterUI:
     def reload_settings(self):
         self.settings = load_settings()
 
+        self.setting_frame.mode.set(
+            self.settings["default_mode"]
+        )
+
+        self.setting_frame.max_rows.config(
+            state="normal"
+        )
+
+        self.setting_frame.max_rows.delete(
+            0,
+            tk.END
+        )
+
+        self.setting_frame.max_rows.insert(
+            0,
+            str(self.settings["default_max_rows"])
+        )
+
+        self.setting_frame.change_mode()
+
     # 実行・変換部分
     def create_execute_frame(self):
         execute_frame = tk.LabelFrame(
