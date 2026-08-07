@@ -11,6 +11,7 @@ from settings import load_settings
 from setting_ui import SettingUI
 from ui_parts.log_frame import LogFrame
 from ui_parts.file_frame import FileFrame
+from ui_parts.setting_frame import SettingFrame
 
 class ConverterUI:
     def __init__(self, root):
@@ -21,13 +22,8 @@ class ConverterUI:
         self.root.resizable(False, False)
 
         self.file_path = None
-        self.log_box = None
 
         self.settings = load_settings()
-
-        self.mode = tk.StringVar(
-            value=self.settings["default_mode"]
-        )
         self.create_widgets()
 
     def add_log(self, message):
@@ -37,32 +33,6 @@ class ConverterUI:
             self.log_frame.add_log,
             message
         )
-
-
-    def _add_log(self, message):
-
-        self.log_box.insert(
-            tk.END,
-            message + "\n"
-        )
-
-        self.log_box.see(
-            tk.END
-        )
-
-    def change_mode(self):
-
-        if self.mode.get() == "1":
-
-            self.max_rows.config(
-                state="disabled"
-            )
-
-        else:
-
-            self.max_rows.config(
-                state="normal"
-            )
 
     def create_widgets(self):
         # タイトル
@@ -88,7 +58,10 @@ class ConverterUI:
             self.root,
             self.file_selected
         )
-        self.create_setting_frame()
+        self.setting_frame = SettingFrame(
+            self.root,
+            self.settings
+        )
         self.create_execute_frame()
         self.log_frame = LogFrame(
             self.root
@@ -96,66 +69,6 @@ class ConverterUI:
 
     def file_selected(self, file_path):
         self.file_path = file_path
-
-    # 変換設定部分
-    def create_setting_frame(self):
-        setting_frame = tk.LabelFrame(
-            self.root,
-            text="変換設定"
-        )
-
-        setting_frame.pack(
-            padx=10,
-            pady=10,
-            fill="x"
-        )
-
-        mode_label = tk.Label(
-            setting_frame,
-            text="読み込み方法"
-        )
-
-        mode_label.pack(
-            pady=(10, 0)
-        )
-
-
-        radio1 = tk.Radiobutton(
-            setting_frame,
-            text="購入内容が空白まで",
-            variable=self.mode,
-            value="1",
-            command=self.change_mode
-        )
-
-        radio1.pack()
-
-
-        radio2 = tk.Radiobutton(
-            setting_frame,
-            text="指定行まで",
-            variable=self.mode,
-            value="2",
-            command=self.change_mode
-        )
-
-        radio2.pack()
-
-
-        self.max_rows = tk.Entry(
-            setting_frame,
-            width=10
-        )
-
-        self.max_rows.insert(
-            0,
-            str(self.settings["default_max_rows"])
-        )
-
-        self.max_rows.pack()
-
-
-        self.change_mode()
 
     # 設定画面を開く関数
     def open_settings(self):
@@ -166,24 +79,7 @@ class ConverterUI:
 
     # 設定のメイン反映
     def reload_settings(self):
-
         self.settings = load_settings()
-
-        self.mode.set(
-            self.settings["default_mode"]
-        )
-
-        self.max_rows.delete(
-            0,
-            tk.END
-        )
-
-        self.max_rows.insert(
-            0,
-            str(self.settings["default_max_rows"])
-        )
-
-        self.change_mode()
 
     # 実行・変換部分
     def create_execute_frame(self):
@@ -242,24 +138,23 @@ class ConverterUI:
 
         self.root.update()
 
-        if self.mode.get() == "2":
-            max_rows = int(self.max_rows.get())
-        else:
-            max_rows = None
+        values = self.setting_frame.get_values()
 
+        mode = values["mode"]
+        max_rows = values["max_rows"]
 
         threading.Thread(
             target=self.run_conversion,
-            args=(max_rows,),
+            args=(mode, max_rows),
             daemon=True
         ).start()
 
 
-    def run_conversion(self, max_rows):
+    def run_conversion(self, mode, max_rows):
         try:
             excel_to_csv(
                 self.file_path,
-                mode=self.mode.get(),
+                mode=mode,
                 max_rows=max_rows,
                 log_callback=self.add_log
             )
