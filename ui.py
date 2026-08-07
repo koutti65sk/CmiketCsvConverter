@@ -53,21 +53,36 @@ class ConverterUI:
         )
         title.pack(pady=20)
 
+        file_frame = tk.LabelFrame(
+            self.root,
+            text="ファイル選択"
+        )
+
+        file_frame.pack(
+            padx=10,
+            pady=10,
+            fill="x"
+        )
+
         # ファイルパス表示
         self.file_label = tk.Label(
-            self.root,
+            file_frame,
             text="Excelファイルが選択されていません",
             wraplength=450
         )
-        self.file_label.pack(pady=10)
+
+        self.file_label.pack(
+            padx=10,
+            pady=5
+        )
 
         # Excel選択ボタン
         select_button = tk.Button(
-            self.root,
+            file_frame,
             text="Excelを選択",
             command=self.select_file
         )
-        select_button.pack(pady=10)
+        select_button.pack(pady=5)
 
         # ラベルを追加
         mode_label = tk.Label(
