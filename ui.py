@@ -9,6 +9,7 @@ from config import (
 )
 from settings import load_settings
 from setting_ui import SettingUI
+from ui_parts.log_frame import LogFrame
 
 class ConverterUI:
     def __init__(self, root):
@@ -32,7 +33,7 @@ class ConverterUI:
 
         self.root.after(
             0,
-            self._add_log,
+            self.log_frame.add_log,
             message
         )
 
@@ -85,7 +86,9 @@ class ConverterUI:
         self.create_file_frame()
         self.create_setting_frame()
         self.create_execute_frame()
-        self.create_log_frame()
+        self.log_frame = LogFrame(
+            self.root
+        )
 
 
     # ファイル選択部分
@@ -242,52 +245,6 @@ class ConverterUI:
 
         self.status_label.pack(
             pady=5
-        )
-
-    # ログ出力部分
-    def create_log_frame(self):
-        log_frame = tk.LabelFrame(
-            self.root,
-            text="ログ"
-        )
-
-        log_frame.pack(
-            padx=10,
-            pady=(0, 5),
-            fill="both",
-            expand=True
-        )
-
-
-        self.log_box = tk.Text(
-            log_frame,
-            height=15,
-            width=70
-        )
-
-
-        scrollbar = tk.Scrollbar(
-            log_frame,
-            command=self.log_box.yview
-        )
-
-
-        self.log_box.configure(
-            yscrollcommand=scrollbar.set
-        )
-
-
-        scrollbar.pack(
-            side="right",
-            fill="y"
-        )
-
-
-        self.log_box.pack(
-            padx=5,
-            pady=5,
-            fill="both",
-            expand=True
         )
 
 
