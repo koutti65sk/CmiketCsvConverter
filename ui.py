@@ -200,9 +200,6 @@ class ConverterUI:
 
             self.root.update()
 
-            print(self.mode.get())
-            print(self.max_rows.get())
-
             if self.mode.get() == "2":
                 max_rows = int(self.max_rows.get())
             else:
