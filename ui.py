@@ -82,7 +82,7 @@ class ConverterUI:
             self.root,
             text="購入内容が空白まで",
             variable=self.mode,
-            value="1"
+            value="1",
             command=self.change_mode
         )
 
@@ -93,7 +93,7 @@ class ConverterUI:
             self.root,
             text="指定行まで",
             variable=self.mode,
-            value="2"
+            value="2",
             command=self.change_mode
         )
 
