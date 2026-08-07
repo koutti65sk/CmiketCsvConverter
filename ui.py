@@ -167,6 +167,7 @@ class ConverterUI:
             self.root.update()
 
             print(self.mode.get())
+            print(self.max_rows.get())
 
             excel_to_csv(
                 self.file_path,
