@@ -46,6 +46,9 @@ def excel_to_csv(
         f"{len(sheets)}個のシートを検出"
     )
 
+    converted_count = 0
+    skipped_count = 0
+
     # 各シートをCSVに変換
     for index, sheet_data in enumerate(sheets, start=1):
 
@@ -97,8 +100,6 @@ def excel_to_csv(
             ]
 
         rows = []
-        converted_count = 0
-        skipped_count = 0
 
         for i, row in df.iterrows():
 
