@@ -214,5 +214,9 @@ def excel_to_csv(
         "converted": converted_count,
         "skipped": skipped_count,
         "converted_sheets": converted_sheets,
-        "skipped_sheets": skipped_sheets
+        "skipped_sheets": skipped_sheets,
+        "cancelled": (
+            cancel_event is not None
+            and cancel_event.is_set()
+        )
     }

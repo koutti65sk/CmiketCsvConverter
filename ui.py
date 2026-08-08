@@ -194,14 +194,21 @@ class ConverterUI:
                 cancel_event=self.cancel_event
             )
 
-            self.root.after(
-                0,
-                self.finish_conversion,
-                result
-            )
+            if result["cancelled"]:
+                self.root.after(
+                    0,
+                    self.finish_cancelled,
+                    result
+                )
+
+            else:
+                self.root.after(
+                    0,
+                    self.finish_conversion,
+                    result
+                )
 
         except Exception as e:
-
             self.root.after(
                 0,
                 lambda: self.show_error(e)
@@ -209,7 +216,6 @@ class ConverterUI:
 
 
     def finish_conversion(self, result):
-
         converted = result["converted"]
         skipped = result["skipped"]
 
@@ -241,7 +247,6 @@ class ConverterUI:
         )
 
         if converted_sheets:
-
             message += (
                 "\n\n変換したシート\n"
                 + "\n".join(
@@ -251,7 +256,6 @@ class ConverterUI:
             )
 
         if skipped_sheets:
-
             message += (
                 "\n\nスキップしたシート\n"
                 + "\n".join(
@@ -341,6 +345,37 @@ class ConverterUI:
         )
 
         self.execute_frame.disable_cancel_button()
+
+    def finish_cancelled(self, result):
+
+        converted = result["converted"]
+        skipped = result["skipped"]
+
+        self.add_log(
+            "変換をキャンセルしました"
+        )
+
+        self.execute_frame.set_status(
+            "キャンセル"
+        )
+
+        self.execute_frame.enable_button()
+        self.execute_frame.disable_cancel_button()
+
+        self.file_frame.enable()
+
+        self.setting_button.config(
+            state="normal"
+        )
+
+        self.log_frame.enable_clear_button()
+
+        messagebox.showinfo(
+            "キャンセル",
+            f"変換をキャンセルしました。\n\n"
+            f"変換済み：{converted}個\n"
+            f"スキップ：{skipped}個"
+        )
 
 
 def start_ui():
