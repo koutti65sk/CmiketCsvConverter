@@ -217,27 +217,37 @@ def excel_to_csv(
 
     if cancel_event and cancel_event.is_set():
 
+        log("")
+        log("変換結果")
+        log("--------------------")
         log(
-            "✖ 変換をキャンセルしました"
+            f"✔ 変換：{converted_count}個"
         )
+        log(
+            f"↷ スキップ：{skipped_count}個"
+        )
+        log("✖ キャンセル")
+        log("--------------------")
+
 
     elif converted_count == 0:
 
-        log(
-            "変換対象のシートはありませんでした。"
-        )
+        log("")
+        log("変換対象のシートはありませんでした。")
+
 
     else:
 
         log("")
+        log("変換結果")
+        log("--------------------")
         log(
-            f"変換完了：{converted_count}個"
+            f"✔ 変換：{converted_count}個"
         )
-
         log(
-            f"スキップ：{skipped_count}個"
+            f"↷ スキップ：{skipped_count}個"
         )
-
+        log("--------------------")
 
     return {
         "converted": converted_count,
