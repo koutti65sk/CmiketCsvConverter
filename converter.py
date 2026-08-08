@@ -143,7 +143,17 @@ def excel_to_csv(
                     zip_file
                 )
 
+                if should_overwrite is None:
+
+                    log(
+                        f"{sheet} の処理をキャンセルしました"
+                    )
+
+                    break
+
+
                 if not should_overwrite:
+
                     log(
                         f"{sheet} をスキップしました"
                     )

@@ -305,12 +305,110 @@ class ConverterUI:
         )
 
     def ask_overwrite(self, csv_file, zip_file):
-        result = messagebox.askyesno(
-            "上書き確認",
-            "既存の出力ファイルがあります。\n"
-            "上書きして変換を続けますか？"
+
+        result = {
+            "value": None
+        }
+
+        dialog = tk.Toplevel(self.root)
+
+        dialog.title("上書き確認")
+        dialog.geometry("450x180")
+        dialog.resizable(False, False)
+
+        dialog.transient(self.root)
+        dialog.grab_set()
+
+        label = tk.Label(
+            dialog,
+            text=(
+                "既存の出力ファイルがあります。\n\n"
+                "上書きして変換を続けますか？"
+            )
         )
-        return result
+
+        label.pack(
+            pady=20
+        )
+
+        button_frame = tk.Frame(
+            dialog
+        )
+
+        button_frame.pack()
+
+        def overwrite():
+
+            result["value"] = True
+
+            dialog.destroy()
+
+
+        def skip():
+
+            result["value"] = False
+
+            dialog.destroy()
+
+
+        def cancel():
+
+            result["value"] = None
+
+            self.cancel_event.set()
+
+            dialog.destroy()
+
+
+        overwrite_button = tk.Button(
+            button_frame,
+            text="はい",
+            width=10,
+            command=overwrite
+        )
+
+        overwrite_button.pack(
+            side="left",
+            padx=5
+        )
+
+
+        skip_button = tk.Button(
+            button_frame,
+            text="いいえ",
+            width=10,
+            command=skip
+        )
+
+        skip_button.pack(
+            side="left",
+            padx=5
+        )
+
+
+        cancel_button = tk.Button(
+            button_frame,
+            text="キャンセル",
+            width=10,
+            command=cancel
+        )
+
+        cancel_button.pack(
+            side="left",
+            padx=5
+        )
+
+
+        dialog.protocol(
+            "WM_DELETE_WINDOW",
+            cancel
+        )
+
+        self.root.wait_window(
+            dialog
+        )
+
+        return result["value"]
 
     def request_overwrite(self, csv_file, zip_file):
 
