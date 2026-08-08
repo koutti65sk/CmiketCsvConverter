@@ -114,7 +114,14 @@ def excel_to_csv(
 
         if output_file.exists():
             log(
-                f"既存ファイルを検出: {output_file.name}"
+                f"既存CSVを検出: {output_file.name}"
+            )
+
+        zip_file = output_file.with_suffix(".zip")
+
+        if zip_file.exists():
+            log(
+                f"既存ZIPを検出: {zip_file.name}"
             )
 
         output_file = save_csv(
