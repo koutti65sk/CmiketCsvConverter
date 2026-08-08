@@ -156,12 +156,15 @@ def excel_to_csv(
                 if should_overwrite is None:
 
                     log("")
+
                     log(
                         f"✖ {sheet} の処理をキャンセルしました"
                     )
 
-                    break
+                    if cancel_event:
+                        cancel_event.set()
 
+                    break
 
                 if not should_overwrite:
 

@@ -351,8 +351,6 @@ class ConverterUI:
 
             result["value"] = None
 
-            self.cancel_event.set()
-
             dialog.destroy()
 
 
