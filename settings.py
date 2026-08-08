@@ -6,7 +6,7 @@ SETTINGS_FILE = Path("settings.json")
 
 DEFAULT_SETTINGS = {
     "default_mode": "1",
-    "default_max_rows": 1000,
+    "default_max_rows": 150,
     "create_zip": True
 }
 
@@ -29,6 +29,11 @@ def load_settings():
     except (json.JSONDecodeError, OSError):
 
         return DEFAULT_SETTINGS.copy()
+
+    for key, value in DEFAULT_SETTINGS.items():
+
+        if key not in settings:
+            settings[key] = value
 
     return settings
 
