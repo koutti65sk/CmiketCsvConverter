@@ -2,7 +2,10 @@ import json
 from pathlib import Path
 
 
-SETTINGS_FILE = Path("settings.json")
+SETTINGS_FILE = (
+    Path(__file__).resolve().parent
+    / "settings.json"
+)
 
 DEFAULT_SETTINGS = {
     "default_mode": "1",
