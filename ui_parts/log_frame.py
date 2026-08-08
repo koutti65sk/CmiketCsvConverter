@@ -17,30 +17,25 @@ class LogFrame:
             expand=True
         )
 
-
         self.log_box = tk.Text(
             self.frame,
             height=15,
             width=70
         )
 
-
         scrollbar = tk.Scrollbar(
             self.frame,
             command=self.log_box.yview
         )
 
-
         self.log_box.configure(
             yscrollcommand=scrollbar.set
         )
-
 
         scrollbar.pack(
             side="right",
             fill="y"
         )
-
 
         self.log_box.pack(
             padx=5,
@@ -49,6 +44,15 @@ class LogFrame:
             expand=True
         )
 
+        clear_button = tk.Button(
+            self.frame,
+            text="ログをクリア",
+            command=self.clear_log
+        )
+
+        clear_button.pack(
+            pady=(0, 5)
+        )
 
     def add_log(self, message):
 
@@ -58,5 +62,12 @@ class LogFrame:
         )
 
         self.log_box.see(
+            tk.END
+        )
+
+    def clear_log(self):
+
+        self.log_box.delete(
+            "1.0",
             tk.END
         )
