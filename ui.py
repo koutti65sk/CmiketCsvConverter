@@ -108,6 +108,10 @@ class ConverterUI:
             str(self.settings["default_max_rows"])
         )
 
+        self.setting_frame.create_zip.set(
+            self.settings["create_zip"]
+        )
+
         self.setting_frame.change_mode()
 
     def convert(self):
