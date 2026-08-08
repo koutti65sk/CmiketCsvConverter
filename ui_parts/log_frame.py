@@ -19,8 +19,8 @@ class LogFrame:
 
         self.log_box = tk.Text(
             self.frame,
-            height=15,
-            width=70
+            height=8,
+            width=60
         )
 
         scrollbar = tk.Scrollbar(
