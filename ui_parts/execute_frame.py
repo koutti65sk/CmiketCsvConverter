@@ -65,9 +65,17 @@ class ExecuteFrame:
             state="normal"
         )
 
+        self.open_folder_button.config(
+            state="normal"
+        )
+
 
     def disable_button(self):
 
         self.convert_button.config(
+            state="disabled"
+        )
+
+        self.open_folder_button.config(
             state="disabled"
         )
