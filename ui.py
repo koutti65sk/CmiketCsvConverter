@@ -118,7 +118,6 @@ class ConverterUI:
         self.setting_frame.change_mode()
 
     def convert(self):
-
         if not self.file_path:
             messagebox.showwarning(
                 "警告",
@@ -127,6 +126,8 @@ class ConverterUI:
             return
 
         self.execute_frame.disable_button()
+
+        self.file_frame.disable()
 
         self.execute_frame.set_status(
             "変換中..."
@@ -204,6 +205,8 @@ class ConverterUI:
 
         self.execute_frame.enable_button()
 
+        self.file_frame.enable()
+
         messagebox.showinfo(
             "完了",
             "変換が完了しました"
@@ -216,6 +219,8 @@ class ConverterUI:
         )
 
         self.execute_frame.enable_button()
+
+        self.file_frame.enable()
 
         self.execute_frame.set_status(
             "エラー"
