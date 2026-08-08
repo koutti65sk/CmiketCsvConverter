@@ -3,7 +3,7 @@ from pathlib import Path
 from csv_builder import create_row
 from excel_reader import read_excel, get_hyperlinks
 from zip_manager import create_zip as create_zip_file
-from csv_writer import save_csv
+from csv_writer import save_csv, get_csv_path
 
 
 def excel_to_csv(
@@ -104,6 +104,17 @@ def excel_to_csv(
                     row,
                     links[i]
                 )
+            )
+
+        output_file = get_csv_path(
+            output_dir,
+            excel_name,
+            sheet
+        )
+
+        if output_file.exists():
+            log(
+                f"既存ファイルを検出: {output_file.name}"
             )
 
         output_file = save_csv(
