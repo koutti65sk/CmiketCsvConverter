@@ -178,7 +178,7 @@ class ConverterUI:
 
     def run_conversion(self, mode, max_rows, create_zip):
         try:
-            excel_to_csv(
+            result = excel_to_csv(
                 self.file_path,
                 mode=mode,
                 max_rows=max_rows,
@@ -187,6 +187,13 @@ class ConverterUI:
                 progress_callback=self.update_progress,
                 overwrite_callback=self.request_overwrite
             )
+
+            if result is False:
+                self.root.after(
+                    0,
+                    self.cancel_conversion
+                )
+                return
 
             self.root.after(
                 0,
@@ -287,6 +294,18 @@ class ConverterUI:
         event.wait()
 
         return result["value"]
+
+    def cancel_conversion(self):
+
+        self.execute_frame.set_status(
+            "キャンセル"
+        )
+
+        self.execute_frame.enable_button()
+
+        self.add_log(
+            "変換をキャンセルしました"
+        )
 
 
 def start_ui():

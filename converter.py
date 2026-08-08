@@ -132,7 +132,7 @@ def excel_to_csv(
                     log(
                         "変換をキャンセルしました"
                     )
-                    return
+                    return False
 
         output_file = save_csv(
             rows,
@@ -174,3 +174,4 @@ def excel_to_csv(
     log(
         "すべてのシートの変換が完了しました。"
     )
+    return True
