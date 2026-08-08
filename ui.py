@@ -14,6 +14,7 @@ from ui_parts.log_frame import LogFrame
 from ui_parts.file_frame import FileFrame
 from ui_parts.setting_frame import SettingFrame
 from ui_parts.execute_frame import ExecuteFrame
+from ui_parts.progress_frame import ProgressFrame
 
 class ConverterUI:
     def __init__(self, root):
@@ -63,6 +64,9 @@ class ConverterUI:
         self.setting_frame = SettingFrame(
             self.root,
             self.settings
+        )
+        self.progress_frame = ProgressFrame(
+            self.root
         )
         self.execute_frame = ExecuteFrame(
             self.root,
@@ -121,6 +125,8 @@ class ConverterUI:
             "変換中..."
         )
 
+        self.progress_frame.reset()
+
         self.add_log(
             "変換開始..."
         )
@@ -145,7 +151,8 @@ class ConverterUI:
                 self.file_path,
                 mode=mode,
                 max_rows=max_rows,
-                log_callback=self.add_log
+                log_callback=self.add_log,
+                progress_callback=self.update_progress
             )
 
             self.root.after(
@@ -193,6 +200,16 @@ class ConverterUI:
             "エラー",
             str(e)
         )
+
+
+    def update_progress(self, current, total):
+
+    self.root.after(
+        0,
+        self.progress_frame.set_progress,
+        current,
+        total
+    )
 
 
 def start_ui():

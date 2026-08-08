@@ -10,7 +10,8 @@ def excel_to_csv(
     file_path,
     mode="1",
     max_rows=None,
-    log_callback=None
+    log_callback=None,
+    progress_callback=None
 ):
 
     def log(message):
@@ -33,12 +34,14 @@ def excel_to_csv(
         max_rows
     )
 
+    total_sheets = len(sheets)
+
     log(
         f"{len(sheets)}個のシートを検出"
     )
 
     # 各シートをCSVに変換
-    for sheet_data in sheets:
+    for index, sheet_data in enumerate(sheets, start=1):
 
         sheet = sheet_data["name"]
         df = sheet_data["df"]
@@ -106,6 +109,12 @@ def excel_to_csv(
         log(
             f"✔ {zip_file.name} を作成しました"
         )
+
+        if progress_callback:
+            progress_callback(
+                index,
+                total_sheets
+            )
 
     log(
         "すべてのシートの変換が完了しました。"
