@@ -303,10 +303,6 @@ class ConverterUI:
 
         self.execute_frame.enable_button()
 
-        self.add_log(
-            "変換をキャンセルしました"
-        )
-
 
 def start_ui():
     root = tk.Tk()
