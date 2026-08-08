@@ -2,7 +2,7 @@ from pathlib import Path
 
 from csv_builder import create_row
 from excel_reader import read_excel, get_hyperlinks
-from zip_manager import create_zip
+from zip_manager import create_zip as create_zip_file
 from csv_writer import save_csv
 
 
@@ -10,6 +10,7 @@ def excel_to_csv(
     file_path,
     mode="1",
     max_rows=None,
+    create_zip=True,
     log_callback=None,
     progress_callback=None
 ):
@@ -112,17 +113,25 @@ def excel_to_csv(
             sheet
         )
 
-        log("ZIP作成中...")
+        if create_zip:
 
-        zip_file = create_zip(
-            output_file
-        )
+            log("ZIP作成中...")
 
-        output_file.unlink()
+            zip_file = create_zip_file(
+                output_file
+            )
 
-        log(
-            f"✔ {zip_file.name} を作成しました"
-        )
+            output_file.unlink()
+
+            log(
+                f"✔ {zip_file.name} を作成しました"
+            )
+
+        else:
+
+            log(
+                f"✔ {output_file.name} を作成しました"
+            )
 
         log(
             f"進捗更新: {index}/{total_sheets}"
