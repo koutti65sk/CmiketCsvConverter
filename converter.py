@@ -201,4 +201,4 @@ def excel_to_csv(
             f"スキップ：{skipped_count}個"
         )
 
-        return True
+    return True
