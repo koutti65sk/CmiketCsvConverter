@@ -209,9 +209,11 @@ class ConverterUI:
                 )
 
         except Exception as e:
+
             self.root.after(
                 0,
-                lambda: self.show_error(e)
+                self.show_error,
+                e
             )
 
 
