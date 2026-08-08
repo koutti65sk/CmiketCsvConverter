@@ -217,6 +217,14 @@ class ConverterUI:
 
         self.execute_frame.enable_button()
 
+        self.file_frame.enable()
+
+        self.setting_button.config(
+            state="normal"
+        )
+
+        self.log_frame.enable_clear_button()
+
         messagebox.showinfo(
             "完了",
             f"変換が完了しました。\n\n"
