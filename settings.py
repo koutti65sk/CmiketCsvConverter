@@ -69,6 +69,8 @@ def load_settings():
 
 def save_settings(settings):
 
+    settings = settings.copy()
+
     with open(
         SETTINGS_FILE,
         "w",
