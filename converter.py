@@ -155,6 +155,7 @@ def excel_to_csv(
 
                 if should_overwrite is None:
 
+                    log("")
                     log(
                         f"✖ {sheet} の処理をキャンセルしました"
                     )
