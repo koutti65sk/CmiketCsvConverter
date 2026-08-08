@@ -88,7 +88,6 @@ def excel_to_csv(
             log(
                 f"↷ {sheet} をスキップしました（購入内容列なし）"
             )
-            log("")
 
             skipped_count += 1
             skipped_sheets.append(sheet)
@@ -202,13 +201,11 @@ def excel_to_csv(
             log(
                 f"✔ {zip_file.name} を作成しました"
             )
-            log("")
 
         else:
             log(
                 f"✔ {output_file.name} を作成しました"
             )
-            log("")
 
         if progress_callback:
             progress_callback(
