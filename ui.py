@@ -133,6 +133,8 @@ class ConverterUI:
             state="disabled"
         )
 
+        self.log_frame.disable_clear_button()
+
         self.execute_frame.set_status(
             "変換中..."
         )
@@ -215,6 +217,8 @@ class ConverterUI:
             state="normal"
         )
 
+        self.log_frame.enable_clear_button()
+
         messagebox.showinfo(
             "完了",
             "変換が完了しました"
@@ -227,8 +231,8 @@ class ConverterUI:
         )
 
         self.execute_frame.enable_button()
-
         self.file_frame.enable()
+        self.log_frame.enable_clear_button()
 
         self.execute_frame.set_status(
             "エラー"
