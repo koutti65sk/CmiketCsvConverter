@@ -73,7 +73,8 @@ class ConverterUI:
         self.execute_frame = ExecuteFrame(
             self.root,
             self.convert,
-            self.open_output_folder
+            self.open_output_folder,
+            self.cancel_conversion
         )
         self.log_frame = LogFrame(
             self.root
@@ -126,6 +127,8 @@ class ConverterUI:
             return
 
         self.execute_frame.disable_button()
+
+        self.execute_frame.enable_cancel_button()
 
         self.file_frame.disable()
 
@@ -219,6 +222,7 @@ class ConverterUI:
         )
 
         self.execute_frame.enable_button()
+        self.execute_frame.disable_cancel_button()
         self.file_frame.enable()
 
         self.setting_button.config(
@@ -264,7 +268,7 @@ class ConverterUI:
         )
 
         self.execute_frame.enable_button()
-
+        self.execute_frame.disable_cancel_button()
         self.file_frame.enable()
 
         self.setting_button.config(

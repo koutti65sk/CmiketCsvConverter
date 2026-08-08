@@ -3,9 +3,17 @@ import tkinter as tk
 
 class ExecuteFrame:
 
-    def __init__(self, parent, on_convert, on_open_folder):
+    def __init__(
+        self,
+        parent,
+        on_convert,
+        on_open_folder,
+        on_cancel
+    ):
 
         self.on_convert = on_convert
+        self.on_open_folder = on_open_folder
+        self.on_cancel = on_cancel
 
         self.on_open_folder = on_open_folder
 
@@ -30,6 +38,20 @@ class ExecuteFrame:
         self.convert_button.pack(
             pady=10
         )
+
+        self.cancel_button = tk.Button(
+            self.frame,
+            text="変換をキャンセル",
+            command=self.on_cancel
+        )
+
+        self.cancel_button.pack(
+            pady=5
+        )
+
+        self.cancel_button.config(
+            state="disabled"
+)
 
         self.open_folder_button = tk.Button(
             self.frame,
@@ -77,5 +99,18 @@ class ExecuteFrame:
         )
 
         self.open_folder_button.config(
+            state="disabled"
+        )
+
+    def enable_cancel_button(self):
+
+        self.cancel_button.config(
+            state="normal"
+        )
+
+
+    def disable_cancel_button(self):
+
+        self.cancel_button.config(
             state="disabled"
         )
