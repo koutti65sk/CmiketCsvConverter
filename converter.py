@@ -132,6 +132,12 @@ def excel_to_csv(
                     log(
                         f"{sheet} をスキップしました"
                     )
+                    if progress_callback:
+                        progress_callback(
+                            index,
+                            total_sheets
+                        )
+
                     continue
 
         output_file = save_csv(
