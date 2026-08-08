@@ -1,3 +1,3 @@
 APP_NAME = "Excel CSV Converter"
 
-WINDOW_SIZE = "600x750"
+WINDOW_SIZE = "600x850"
