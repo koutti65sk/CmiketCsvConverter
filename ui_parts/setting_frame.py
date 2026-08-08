@@ -89,17 +89,21 @@ class SettingFrame:
 
 
     def get_values(self):
-
         if self.mode.get() == "2":
+            try:
+                max_rows = int(
+                    self.max_rows.get()
+                )
 
-            max_rows = int(
-                self.max_rows.get()
-            )
+                if max_rows <= 0:
+                    raise ValueError
 
+            except ValueError:
+                raise ValueError(
+                    "読み込み行数には1以上の数字を入力してください"
+                )
         else:
-
             max_rows = None
-
 
         return {
             "mode": self.mode.get(),

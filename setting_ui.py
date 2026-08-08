@@ -95,18 +95,27 @@ class SettingUI:
 
 
     def save(self):
-
         self.settings["default_mode"] = self.mode.get()
+        try:
+            max_rows = int(
+                self.max_rows.get()
+            )
 
-        self.settings["default_max_rows"] = int(
-            self.max_rows.get()
-        )
+            if max_rows <= 0:
+                raise ValueError
 
+        except ValueError:
+            messagebox.showerror(
+                "入力エラー",
+                "読み込み行数には1以上の数字を入力してください"
+            )
+            return
+
+        self.settings["default_max_rows"] = max_rows
 
         save_settings(
             self.settings
         )
-
 
         messagebox.showinfo(
             "保存",
