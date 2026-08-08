@@ -44,13 +44,13 @@ class LogFrame:
             expand=True
         )
 
-        clear_button = tk.Button(
+        self.clear_button = tk.Button(
             self.frame,
             text="ログをクリア",
             command=self.clear_log
         )
 
-        clear_button.pack(
+        self.clear_button.pack(
             pady=(0, 5)
         )
 
@@ -70,4 +70,17 @@ class LogFrame:
         self.log_box.delete(
             "1.0",
             tk.END
+        )
+
+    def enable_clear_button(self):
+
+        self.clear_button.config(
+            state="normal"
+        )
+
+
+    def disable_clear_button(self):
+
+        self.clear_button.config(
+            state="disabled"
         )
