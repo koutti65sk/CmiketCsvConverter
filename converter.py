@@ -98,6 +98,7 @@ def excel_to_csv(
 
         rows = []
         converted_count = 0
+        skipped_count = 0
 
         for i, row in df.iterrows():
 
@@ -133,6 +134,9 @@ def excel_to_csv(
                     log(
                         f"{sheet} をスキップしました"
                     )
+
+                    skipped_count += 1
+
                     if progress_callback:
                         progress_callback(
                             index,
@@ -189,7 +193,11 @@ def excel_to_csv(
     else:
 
         log(
-            f"{converted_count}個のシートを変換しました。"
+            f"変換完了：{converted_count}個"
         )
 
-    return True
+        log(
+            f"スキップ：{skipped_count}個"
+        )
+
+        return True
