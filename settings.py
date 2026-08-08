@@ -4,15 +4,17 @@ from pathlib import Path
 
 SETTINGS_FILE = Path("settings.json")
 
+DEFAULT_SETTINGS = {
+    "default_mode": "1",
+    "default_max_rows": 1000,
+    "create_zip": True
+}
+
 
 def load_settings():
 
     if not SETTINGS_FILE.exists():
-        return {
-            "default_mode": "1",
-            "default_max_rows": 1000,
-            "create_zip": True
-        }
+        return DEFAULT_SETTINGS.copy()
 
 
     with open(
