@@ -190,7 +190,8 @@ class ConverterUI:
 
             self.root.after(
                 0,
-                self.finish_conversion
+                self.finish_conversion,
+                result
             )
 
         except Exception as e:
@@ -201,7 +202,11 @@ class ConverterUI:
             )
 
 
-    def finish_conversion(self):
+    def finish_conversion(self, result):
+
+        converted = result["converted"]
+        skipped = result["skipped"]
+
         self.add_log(
             "変換完了"
         )
@@ -212,19 +217,12 @@ class ConverterUI:
 
         self.execute_frame.enable_button()
 
-        self.file_frame.enable()
-
-        self.setting_button.config(
-            state="normal"
-        )
-
-        self.log_frame.enable_clear_button()
-
         messagebox.showinfo(
             "完了",
-            "変換が完了しました"
+            f"変換が完了しました。\n\n"
+            f"変換：{converted}個\n"
+            f"スキップ：{skipped}個"
         )
-
 
     def show_error(self, e):
         self.add_log(
