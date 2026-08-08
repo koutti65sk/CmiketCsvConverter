@@ -40,6 +40,10 @@ def excel_to_csv(
         f"{len(sheets)}個のシートを検出"
     )
 
+    log(
+        f"{len(sheets)}個のシートを検出"
+    )
+
     # 各シートをCSVに変換
     for index, sheet_data in enumerate(sheets, start=1):
 
@@ -67,6 +71,16 @@ def excel_to_csv(
             log(
                 f"{sheet} に購入内容列がありません"
             )
+
+            log(
+                f"進捗更新: {index}/{total_sheets}"
+            )
+
+            if progress_callback:
+                progress_callback(
+                    index,
+                    total_sheets
+                )
             continue
 
         if mode == "1":
@@ -108,6 +122,10 @@ def excel_to_csv(
 
         log(
             f"✔ {zip_file.name} を作成しました"
+        )
+
+        log(
+            f"進捗更新: {index}/{total_sheets}"
         )
 
         if progress_callback:
