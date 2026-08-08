@@ -23,7 +23,13 @@ def excel_to_csv(
         else:
             print(message)
 
-    log(f"変換開始 : {file_path}")
+    log(
+        "変換を開始しました"
+    )
+
+    log(
+        f"ファイル: {Path(file_path).name}"
+    )
 
     # 保存先は元ファイルと同じフォルダ
     output_dir = Path(file_path).parent
@@ -38,10 +44,6 @@ def excel_to_csv(
     )
 
     total_sheets = len(sheets)
-
-    log(
-        f"{len(sheets)}個のシートを検出"
-    )
 
     log(
         f"{len(sheets)}個のシートを検出"
@@ -66,7 +68,7 @@ def excel_to_csv(
             break
 
         log(
-            f"{sheet} を変換中..."
+            f"[{index}/{total_sheets}] {sheet} を変換中..."
         )
 
         links = get_hyperlinks(
@@ -83,12 +85,11 @@ def excel_to_csv(
 
         if "購入内容" not in df.columns:
             log(
-                f"{sheet} に購入内容列がありません"
+                f"↷ {sheet} をスキップしました（購入内容列なし）"
             )
 
-            log(
-                f"進捗更新: {index}/{total_sheets}"
-            )
+            skipped_count += 1
+            skipped_sheets.append(sheet)
 
             if progress_callback:
                 progress_callback(
@@ -111,6 +112,15 @@ def excel_to_csv(
         rows = []
 
         for i, row in df.iterrows():
+
+            if cancel_event and cancel_event.is_set():
+
+                log(
+                    f"✖ {sheet} の変換をキャンセルしました"
+                )
+
+                break
+
             rows.append(
                 create_row(
                     row,
@@ -118,11 +128,10 @@ def excel_to_csv(
                 )
             )
 
-            if cancel_event and cancel_event.is_set():
-                log(
-                    f"{sheet} の変換をキャンセルしました"
-                )
-                break
+
+        if cancel_event and cancel_event.is_set():
+
+            break
 
         output_file = get_csv_path(
             output_dir,
@@ -146,7 +155,7 @@ def excel_to_csv(
                 if should_overwrite is None:
 
                     log(
-                        f"{sheet} の処理をキャンセルしました"
+                        f"✖ {sheet} の処理をキャンセルしました"
                     )
 
                     break
@@ -155,7 +164,7 @@ def excel_to_csv(
                 if not should_overwrite:
 
                     log(
-                        f"{sheet} をスキップしました"
+                        f"↷ {sheet} をスキップしました"
                     )
 
                     skipped_count += 1
@@ -197,22 +206,27 @@ def excel_to_csv(
                 f"✔ {output_file.name} を作成しました"
             )
 
-        log(
-            f"進捗更新: {index}/{total_sheets}"
-        )
-
         if progress_callback:
             progress_callback(
                 index,
                 total_sheets
             )
 
-    if converted_count == 0:
+
+    if cancel_event and cancel_event.is_set():
+
+        log(
+            "✖ 変換をキャンセルしました"
+        )
+
+    elif converted_count == 0:
+
         log(
             "変換対象のシートはありませんでした。"
         )
 
     else:
+
         log(
             f"変換完了：{converted_count}個"
         )
@@ -220,6 +234,7 @@ def excel_to_csv(
         log(
             f"スキップ：{skipped_count}個"
         )
+
 
     return {
         "converted": converted_count,
