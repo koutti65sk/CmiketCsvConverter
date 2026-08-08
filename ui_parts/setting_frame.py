@@ -72,6 +72,21 @@ class SettingFrame:
 
         self.change_mode()
 
+        # ZIP作成
+        self.create_zip = tk.BooleanVar(
+            value=self.settings["create_zip"]
+        )
+
+        zip_check = tk.Checkbutton(
+            self.frame,
+            text="ZIPファイルを作成する",
+            variable=self.create_zip
+        )
+
+        zip_check.pack(
+            pady=5
+        )
+
 
     def change_mode(self):
 
@@ -107,5 +122,6 @@ class SettingFrame:
 
         return {
             "mode": self.mode.get(),
-            "max_rows": max_rows
+            "max_rows": max_rows,
+            "create_zip": self.create_zip.get()
         }
