@@ -1,6 +1,8 @@
 import tkinter as tk
-from tkinter import filedialog, messagebox
+from tkinter import messagebox
 import threading
+import os
+from pathlib import Path
 
 from converter import excel_to_csv
 from config import (
@@ -70,7 +72,8 @@ class ConverterUI:
         )
         self.execute_frame = ExecuteFrame(
             self.root,
-            self.convert
+            self.convert,
+            self.open_output_folder
         )
         self.log_frame = LogFrame(
             self.root
@@ -148,6 +151,22 @@ class ConverterUI:
             args=(mode, max_rows, create_zip),
             daemon=True
         ).start()
+
+    def open_output_folder(self):
+        if not self.file_path:
+            messagebox.showwarning(
+                "警告",
+                "Excelファイルを選択してください"
+            )
+            return
+
+        output_dir = Path(
+            self.file_path
+        ).parent
+
+        os.startfile(
+            output_dir
+        )
 
 
     def run_conversion(self, mode, max_rows, create_zip):
