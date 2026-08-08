@@ -5,7 +5,13 @@ from excel_reader import read_excel, get_hyperlinks
 from zip_manager import create_zip
 from csv_writer import save_csv
 
-def excel_to_csv(file_path, mode="1", max_rows=None, log_callback=None):
+
+def excel_to_csv(
+    file_path,
+    mode="1",
+    max_rows=None,
+    log_callback=None
+):
 
     def log(message):
         if log_callback:
@@ -17,25 +23,21 @@ def excel_to_csv(file_path, mode="1", max_rows=None, log_callback=None):
 
     # 保存先は元ファイルと同じフォルダ
     output_dir = Path(file_path).parent
-    output_dir = Path(file_path).parent
     excel_name = Path(file_path).stem
 
+    log("Excel読み込み中...")
 
-    log(
-    "Excel読み込み中...",
-)
-
-    # 各シートをCSVに変換
+    # Excelを読み込む
     sheets = read_excel(
         file_path,
         max_rows
     )
 
     log(
-        f"{len(sheets)}個のシートを検出",
+        f"{len(sheets)}個のシートを検出"
     )
 
-
+    # 各シートをCSVに変換
     for sheet_data in sheets:
 
         sheet = sheet_data["name"]
@@ -43,29 +45,47 @@ def excel_to_csv(file_path, mode="1", max_rows=None, log_callback=None):
         ws = sheet_data["ws"]
 
         log(
-            f"{sheet} を変換中...",
+            f"{sheet} を変換中..."
         )
 
-        links = get_hyperlinks(ws, "URL")
+        links = get_hyperlinks(
+            ws,
+            "URL"
+        )
 
         if len(links) < len(df):
-            links.extend([""] * (len(df)-len(links)))
+            links.extend(
+                [""] * (len(df) - len(links))
+            )
 
         links = links[:len(df)]
 
         if "購入内容" not in df.columns:
-            log(f"{sheet} に購入内容列がありません")
+            log(
+                f"{sheet} に購入内容列がありません"
+            )
             continue
 
         if mode == "1":
-            df = df[df["購入内容"].notna()]
-            df = df[df["購入内容"].astype(str).str.strip() != ""]
+            df = df[
+                df["購入内容"].notna()
+            ]
+
+            df = df[
+                df["購入内容"]
+                .astype(str)
+                .str.strip() != ""
+            ]
 
         rows = []
 
         for i, row in df.iterrows():
+
             rows.append(
-                create_row(row, links[i])
+                create_row(
+                    row,
+                    links[i]
+                )
             )
 
         output_file = save_csv(
@@ -75,17 +95,18 @@ def excel_to_csv(file_path, mode="1", max_rows=None, log_callback=None):
             sheet
         )
 
+        log("ZIP作成中...")
 
-        log(
-            "ZIP作成中...",
+        zip_file = create_zip(
+            output_file
         )
-        # CSVをZIPに圧縮
-        zip_file = create_zip(output_file)
 
-        # CSVを削除
         output_file.unlink()
 
-        log(f"✔ {zip_file.name} を作成しました")
+        log(
+            f"✔ {zip_file.name} を作成しました"
+        )
 
-
-    log("すべてのシートの変換が完了しました。")
+    log(
+        "すべてのシートの変換が完了しました。"
+    )
