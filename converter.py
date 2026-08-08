@@ -132,7 +132,7 @@ def excel_to_csv(
                     log(
                         "変換をキャンセルしました"
                     )
-                    return False
+                    continue
 
         output_file = save_csv(
             rows,

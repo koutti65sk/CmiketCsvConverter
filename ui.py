@@ -188,13 +188,6 @@ class ConverterUI:
                 overwrite_callback=self.request_overwrite
             )
 
-            if result is False:
-                self.root.after(
-                    0,
-                    self.cancel_conversion
-                )
-                return
-
             self.root.after(
                 0,
                 self.finish_conversion
