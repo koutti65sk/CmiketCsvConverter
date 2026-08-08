@@ -16,15 +16,21 @@ def load_settings():
     if not SETTINGS_FILE.exists():
         return DEFAULT_SETTINGS.copy()
 
+    try:
 
-    with open(
-        SETTINGS_FILE,
-        "r",
-        encoding="utf-8"
-    ) as f:
+        with open(
+            SETTINGS_FILE,
+            "r",
+            encoding="utf-8"
+        ) as f:
 
-        return json.load(f)
+            settings = json.load(f)
 
+    except (json.JSONDecodeError, OSError):
+
+        return DEFAULT_SETTINGS.copy()
+
+    return settings
 
 
 def save_settings(settings):
