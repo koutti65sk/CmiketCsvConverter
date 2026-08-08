@@ -1,13 +1,10 @@
 import tkinter as tk
 from tkinter import filedialog
 
-
 class FileFrame:
 
     def __init__(self, parent, on_selected):
-
         self.on_selected = on_selected
-
         self.frame = tk.LabelFrame(
             parent,
             text="ファイル選択"
@@ -18,7 +15,6 @@ class FileFrame:
             pady=10,
             fill="x"
         )
-
 
         self.file_label = tk.Label(
             self.frame,
@@ -31,20 +27,18 @@ class FileFrame:
             pady=5
         )
 
-
-        select_button = tk.Button(
+        self.select_button = tk.Button(
             self.frame,
             text="Excelを選択",
             command=self.select_file
         )
 
-        select_button.pack(
+        self.select_button.pack(
             pady=5
         )
 
 
     def select_file(self):
-
         file_path = filedialog.askopenfilename(
             title="変換するExcelファイルを選択",
             filetypes=[
@@ -53,11 +47,21 @@ class FileFrame:
             ]
         )
 
-
         if file_path:
-
             self.file_label.config(
                 text=file_path
             )
 
             self.on_selected(file_path)
+
+
+    def disable(self):
+        self.select_button.config(
+            state="disabled"
+        )
+
+
+    def enable(self):
+        self.select_button.config(
+            state="normal"
+        )
