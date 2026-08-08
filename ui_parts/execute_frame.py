@@ -3,9 +3,11 @@ import tkinter as tk
 
 class ExecuteFrame:
 
-    def __init__(self, parent, on_convert):
+    def __init__(self, parent, on_convert, on_open_folder):
 
         self.on_convert = on_convert
+
+        self.on_open_folder = on_open_folder
 
         self.frame = tk.LabelFrame(
             parent,
@@ -27,6 +29,16 @@ class ExecuteFrame:
 
         self.convert_button.pack(
             pady=10
+        )
+
+        self.open_folder_button = tk.Button(
+            self.frame,
+            text="出力フォルダを開く",
+            command=self.on_open_folder
+        )
+
+        self.open_folder_button.pack(
+            pady=5
         )
 
 
