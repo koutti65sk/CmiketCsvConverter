@@ -35,6 +35,32 @@ def load_settings():
         if key not in settings:
             settings[key] = value
 
+
+    # 読み込み方法のチェック
+    if settings["default_mode"] not in ("1", "2"):
+
+        settings["default_mode"] = DEFAULT_SETTINGS["default_mode"]
+
+
+    # 読み込み行数のチェック
+    if (
+        not isinstance(settings["default_max_rows"], int)
+        or settings["default_max_rows"] <= 0
+    ):
+
+        settings["default_max_rows"] = (
+            DEFAULT_SETTINGS["default_max_rows"]
+        )
+
+
+    # ZIP作成のチェック
+    if not isinstance(settings["create_zip"], bool):
+
+        settings["create_zip"] = (
+            DEFAULT_SETTINGS["create_zip"]
+        )
+
+
     return settings
 
 

@@ -1,5 +1,5 @@
 {
-    "default_mode": "2",
-    "default_max_rows": 150,
-    "create_zip": true
+    "default_mode": "999",
+    "default_max_rows": -150,
+    "create_zip": "abc"
 }
