@@ -49,13 +49,13 @@ class ConverterUI:
 
         title.pack(pady=20)
 
-        setting_button = tk.Button(
+        self.setting_button = tk.Button(
                 self.root,
                 text="設定",
                 command=self.open_settings
             )
 
-        setting_button.pack(
+        self.setting_button.pack(
             pady=5
         )
 
@@ -128,6 +128,10 @@ class ConverterUI:
         self.execute_frame.disable_button()
 
         self.file_frame.disable()
+
+        self.setting_button.config(
+            state="disabled"
+        )
 
         self.execute_frame.set_status(
             "変換中..."
@@ -206,6 +210,10 @@ class ConverterUI:
         self.execute_frame.enable_button()
 
         self.file_frame.enable()
+
+        self.setting_button.config(
+            state="normal"
+        )
 
         messagebox.showinfo(
             "完了",
