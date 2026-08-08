@@ -238,7 +238,13 @@ class ConverterUI:
         )
 
         self.execute_frame.enable_button()
+
         self.file_frame.enable()
+
+        self.setting_button.config(
+            state="normal"
+        )
+
         self.log_frame.enable_clear_button()
 
         self.execute_frame.set_status(
@@ -252,7 +258,6 @@ class ConverterUI:
 
 
     def update_progress(self, current, total):
-
         self.root.after(
             0,
             self.progress_frame.set_progress,
