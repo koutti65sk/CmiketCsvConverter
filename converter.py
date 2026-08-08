@@ -10,9 +10,10 @@ def excel_to_csv(
     file_path,
     mode="1",
     max_rows=None,
-    create_zip=True,
     log_callback=None,
-    progress_callback=None
+    progress_callback=None,
+    create_zip=True,
+    overwrite_callback=None
 ):
 
     def log(message):
@@ -112,17 +113,26 @@ def excel_to_csv(
             sheet
         )
 
-        if output_file.exists():
-            log(
-                f"既存CSVを検出: {output_file.name}"
-            )
-
         zip_file = output_file.with_suffix(".zip")
 
-        if zip_file.exists():
+        if output_file.exists() or zip_file.exists():
+
             log(
-                f"既存ZIPを検出: {zip_file.name}"
+                "既存の出力ファイルを検出しました"
             )
+
+            if overwrite_callback:
+
+                should_overwrite = overwrite_callback(
+                    output_file,
+                    zip_file
+                )
+
+                if not should_overwrite:
+                    log(
+                        "変換をキャンセルしました"
+                    )
+                    return
 
         output_file = save_csv(
             rows,

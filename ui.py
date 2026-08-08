@@ -253,6 +253,14 @@ class ConverterUI:
             total
         )
 
+    def ask_overwrite(self, csv_file, zip_file):
+        result = messagebox.askyesno(
+            "上書き確認",
+            "既存の出力ファイルがあります。\n"
+            "上書きして変換を続けますか？"
+        )
+        return result
+
 
 def start_ui():
     root = tk.Tk()
