@@ -55,15 +55,15 @@ def excel_to_csv(
     # 各シートをCSVに変換
     for index, sheet_data in enumerate(sheets, start=1):
 
+        sheet = sheet_data["name"]
+        df = sheet_data["df"]
+        ws = sheet_data["ws"]
+
         if cancel_event and cancel_event.is_set():
             log(
                 f"{sheet} の処理前にキャンセルされました"
             )
             break
-
-        sheet = sheet_data["name"]
-        df = sheet_data["df"]
-        ws = sheet_data["ws"]
 
         log(
             f"{sheet} を変換中..."
