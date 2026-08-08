@@ -204,12 +204,12 @@ class ConverterUI:
 
     def update_progress(self, current, total):
 
-    self.root.after(
-        0,
-        self.progress_frame.set_progress,
-        current,
-        total
-    )
+        self.root.after(
+            0,
+            self.progress_frame.set_progress,
+            current,
+            total
+        )
 
 
 def start_ui():
