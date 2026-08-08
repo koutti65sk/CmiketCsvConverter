@@ -97,6 +97,7 @@ def excel_to_csv(
             ]
 
         rows = []
+        converted_count = 0
 
         for i, row in df.iterrows():
 
@@ -147,6 +148,8 @@ def excel_to_csv(
             sheet
         )
 
+        converted_count += 1
+
         if create_zip:
 
             log("ZIP作成中...")
@@ -177,7 +180,16 @@ def excel_to_csv(
                 total_sheets
             )
 
-    log(
-        "すべてのシートの変換が完了しました。"
-    )
+    if converted_count == 0:
+
+        log(
+            "変換対象のシートはありませんでした。"
+        )
+
+    else:
+
+        log(
+            f"{converted_count}個のシートを変換しました。"
+        )
+
     return True
