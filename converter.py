@@ -130,7 +130,7 @@ def excel_to_csv(
 
                 if not should_overwrite:
                     log(
-                        "変換をキャンセルしました"
+                        f"{sheet} をスキップしました"
                     )
                     continue
 
