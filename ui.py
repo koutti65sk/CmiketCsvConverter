@@ -146,10 +146,6 @@ class ConverterUI:
 
         self.progress_frame.reset()
 
-        self.add_log(
-            "変換開始..."
-        )
-
         self.root.update()
 
         values = self.setting_frame.get_values()
