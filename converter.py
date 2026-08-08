@@ -216,38 +216,63 @@ def excel_to_csv(
 
 
     if cancel_event and cancel_event.is_set():
-
         log("")
-        log("変換結果")
-        log("--------------------")
+        log(
+            "変換結果"
+        )
+        log(
+            "--------------------"
+        )
         log(
             f"✔ 変換：{converted_count}個"
         )
+        for sheet in converted_sheets:
+            log(
+                f"  ・{sheet}"
+            )
         log(
             f"↷ スキップ：{skipped_count}個"
         )
-        log("✖ キャンセル")
-        log("--------------------")
-
+        for sheet in skipped_sheets:
+            log(
+                f"  ・{sheet}"
+            )
+        log(
+            "✖ キャンセル"
+        )
+        log(
+            "--------------------"
+        )
 
     elif converted_count == 0:
-
         log("")
         log("変換対象のシートはありませんでした。")
 
-
     else:
-
         log("")
-        log("変換結果")
-        log("--------------------")
+        log(
+            "変換結果"
+        )
+        log(
+            "--------------------"
+        )
         log(
             f"✔ 変換：{converted_count}個"
         )
+        for sheet in converted_sheets:
+            log(
+                f"  ・{sheet}"
+            )
         log(
             f"↷ スキップ：{skipped_count}個"
         )
-        log("--------------------")
+        for sheet in skipped_sheets:
+            log(
+                f"  ・{sheet}"
+            )
+        log(
+            "--------------------"
+        )
 
     return {
         "converted": converted_count,
