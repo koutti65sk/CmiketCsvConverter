@@ -56,7 +56,9 @@ def excel_to_csv(
     for index, sheet_data in enumerate(sheets, start=1):
 
         if cancel_event and cancel_event.is_set():
-            log("変換をキャンセルしました。")
+            log(
+                f"{sheet} の処理前にキャンセルされました"
+            )
             break
 
         sheet = sheet_data["name"]
@@ -109,13 +111,18 @@ def excel_to_csv(
         rows = []
 
         for i, row in df.iterrows():
-
             rows.append(
                 create_row(
                     row,
                     links[i]
                 )
             )
+
+            if cancel_event and cancel_event.is_set():
+                log(
+                    f"{sheet} の変換をキャンセルしました"
+                )
+                break
 
         output_file = get_csv_path(
             output_dir,
@@ -126,13 +133,11 @@ def excel_to_csv(
         zip_file = output_file.with_suffix(".zip")
 
         if output_file.exists() or zip_file.exists():
-
             log(
                 "既存の出力ファイルを検出しました"
             )
 
             if overwrite_callback:
-
                 should_overwrite = overwrite_callback(
                     output_file,
                     zip_file
@@ -165,7 +170,6 @@ def excel_to_csv(
         converted_sheets.append(sheet)
 
         if create_zip:
-
             log("ZIP作成中...")
 
             zip_file = create_zip_file(
@@ -179,7 +183,6 @@ def excel_to_csv(
             )
 
         else:
-
             log(
                 f"✔ {output_file.name} を作成しました"
             )
@@ -195,13 +198,11 @@ def excel_to_csv(
             )
 
     if converted_count == 0:
-
         log(
             "変換対象のシートはありませんでした。"
         )
 
     else:
-
         log(
             f"変換完了：{converted_count}個"
         )
