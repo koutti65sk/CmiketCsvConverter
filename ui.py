@@ -184,7 +184,8 @@ class ConverterUI:
                 max_rows=max_rows,
                 create_zip=create_zip,
                 log_callback=self.add_log,
-                progress_callback=self.update_progress
+                progress_callback=self.update_progress,
+                overwrite_callback=self.request_overwrite
             )
 
             self.root.after(
@@ -260,6 +261,32 @@ class ConverterUI:
             "上書きして変換を続けますか？"
         )
         return result
+
+    def request_overwrite(self, csv_file, zip_file):
+
+        result = {
+            "value": False
+        }
+
+        event = threading.Event()
+
+        def ask():
+
+            result["value"] = self.ask_overwrite(
+                csv_file,
+                zip_file
+            )
+
+            event.set()
+
+        self.root.after(
+            0,
+            ask
+        )
+
+        event.wait()
+
+        return result["value"]
 
 
 def start_ui():
