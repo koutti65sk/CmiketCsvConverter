@@ -28,6 +28,8 @@ class ConverterUI:
 
         self.file_path = None
 
+        self.cancel_event = threading.Event()
+
         self.settings = load_settings()
         self.create_widgets()
 
@@ -127,8 +129,8 @@ class ConverterUI:
             return
 
         self.execute_frame.disable_button()
-
         self.execute_frame.enable_cancel_button()
+        self.cancel_event.clear()
 
         self.file_frame.disable()
 
@@ -188,7 +190,8 @@ class ConverterUI:
                 create_zip=create_zip,
                 log_callback=self.add_log,
                 progress_callback=self.update_progress,
-                overwrite_callback=self.request_overwrite
+                overwrite_callback=self.request_overwrite,
+                cancel_event=self.cancel_event
             )
 
             self.root.after(
@@ -331,11 +334,13 @@ class ConverterUI:
 
     def cancel_conversion(self):
 
+        self.cancel_event.set()
+
         self.execute_frame.set_status(
-            "キャンセル"
+            "キャンセル中..."
         )
 
-        self.execute_frame.enable_button()
+        self.execute_frame.disable_cancel_button()
 
 
 def start_ui():

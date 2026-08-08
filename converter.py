@@ -13,7 +13,8 @@ def excel_to_csv(
     log_callback=None,
     progress_callback=None,
     create_zip=True,
-    overwrite_callback=None
+    overwrite_callback=None,
+    cancel_event=None
 ):
 
     def log(message):
@@ -53,6 +54,10 @@ def excel_to_csv(
 
     # 各シートをCSVに変換
     for index, sheet_data in enumerate(sheets, start=1):
+
+        if cancel_event and cancel_event.is_set():
+            log("変換をキャンセルしました。")
+            break
 
         sheet = sheet_data["name"]
         df = sheet_data["df"]
