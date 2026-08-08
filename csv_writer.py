@@ -33,9 +33,10 @@ def save_csv(rows, output_dir, excel_name, sheet):
         ignore_index=True
     )
 
-    output_file = (
-        Path(output_dir)
-        / f"{excel_name}_{sheet}.csv"
+    output_file = get_csv_path(
+        output_dir,
+        excel_name,
+        sheet
     )
 
     csv_df = csv_df.reindex(
@@ -49,3 +50,10 @@ def save_csv(rows, output_dir, excel_name, sheet):
     )
 
     return output_file
+
+def get_csv_path(output_dir, excel_name, sheet):
+
+    return (
+        Path(output_dir)
+        / f"{excel_name}_{sheet}.csv"
+    )
