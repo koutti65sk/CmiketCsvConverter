@@ -207,6 +207,9 @@ class ConverterUI:
         converted = result["converted"]
         skipped = result["skipped"]
 
+        converted_sheets = result["converted_sheets"]
+        skipped_sheets = result["skipped_sheets"]
+
         self.add_log(
             "変換完了"
         )
@@ -216,7 +219,6 @@ class ConverterUI:
         )
 
         self.execute_frame.enable_button()
-
         self.file_frame.enable()
 
         self.setting_button.config(
@@ -225,11 +227,35 @@ class ConverterUI:
 
         self.log_frame.enable_clear_button()
 
-        messagebox.showinfo(
-            "完了",
-            f"変換が完了しました。\n\n"
+        message = (
+            "変換が完了しました。\n\n"
             f"変換：{converted}個\n"
             f"スキップ：{skipped}個"
+        )
+
+        if converted_sheets:
+
+            message += (
+                "\n\n変換したシート\n"
+                + "\n".join(
+                    f"・{sheet}"
+                    for sheet in converted_sheets
+                )
+            )
+
+        if skipped_sheets:
+
+            message += (
+                "\n\nスキップしたシート\n"
+                + "\n".join(
+                    f"・{sheet}"
+                    for sheet in skipped_sheets
+                )
+            )
+
+        messagebox.showinfo(
+            "完了",
+            message
         )
 
     def show_error(self, e):

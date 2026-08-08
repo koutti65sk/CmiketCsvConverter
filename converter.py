@@ -48,6 +48,8 @@ def excel_to_csv(
 
     converted_count = 0
     skipped_count = 0
+    converted_sheets = []
+    skipped_sheets = []
 
     # 各シートをCSVに変換
     for index, sheet_data in enumerate(sheets, start=1):
@@ -137,6 +139,7 @@ def excel_to_csv(
                     )
 
                     skipped_count += 1
+                    skipped_sheets.append(sheet)
 
                     if progress_callback:
                         progress_callback(
@@ -154,6 +157,7 @@ def excel_to_csv(
         )
 
         converted_count += 1
+        converted_sheets.append(sheet)
 
         if create_zip:
 
@@ -203,5 +207,7 @@ def excel_to_csv(
 
     return {
         "converted": converted_count,
-        "skipped": skipped_count
+        "skipped": skipped_count,
+        "converted_sheets": converted_sheets,
+        "skipped_sheets": skipped_sheets
     }
