@@ -93,6 +93,21 @@ class SettingUI:
             pady=20
         )
 
+        # ZIP作成
+        self.create_zip = tk.BooleanVar(
+            value=self.settings["create_zip"]
+        )
+
+        zip_check = tk.Checkbutton(
+            self.window,
+            text="ZIPファイルを作成する",
+            variable=self.create_zip
+        )
+
+        zip_check.pack(
+            pady=10
+        )
+
 
     def save(self):
         self.settings["default_mode"] = self.mode.get()
@@ -112,6 +127,8 @@ class SettingUI:
             return
 
         self.settings["default_max_rows"] = max_rows
+
+        self.settings["create_zip"] = self.create_zip.get()
 
         save_settings(
             self.settings
