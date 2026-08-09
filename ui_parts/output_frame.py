@@ -105,20 +105,6 @@ class OutputFrame:
             padx=5
         )
 
-    def select_folder(self):
-
-        folder_path = filedialog.askdirectory(
-            title="保存先フォルダを選択"
-        )
-
-        if folder_path:
-
-            self.output_dir = folder_path
-
-            self.path_label.config(
-                text=folder_path
-            )
-
     def reset(self):
 
         self.output_dir = None

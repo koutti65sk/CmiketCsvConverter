@@ -176,16 +176,21 @@ class ConverterUI:
         ).start()
 
     def open_output_folder(self):
-        if not self.file_path:
-            messagebox.showwarning(
-                "警告",
-                "Excelファイルを選択してください"
-            )
-            return
 
-        output_dir = Path(
-            self.file_path
-        ).parent
+        output_dir = self.output_frame.get_output_dir()
+
+        if not output_dir:
+
+            if not self.file_path:
+                messagebox.showwarning(
+                    "警告",
+                    "Excelファイルを選択してください"
+                )
+                return
+
+            output_dir = Path(
+                self.file_path
+            ).parent
 
         os.startfile(
             output_dir
