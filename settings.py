@@ -10,7 +10,9 @@ SETTINGS_FILE = (
 DEFAULT_SETTINGS = {
     "default_mode": "1",
     "default_max_rows": 150,
-    "create_zip": True
+    "create_zip": True,
+    "last_output_dir": "",
+    "last_output_name": ""
 }
 
 
@@ -64,11 +66,17 @@ def load_settings():
         )
 
 
-# 保存先のチェック
+    # 保存先のチェック
     if not isinstance(settings["last_output_dir"], str):
-
         settings["last_output_dir"] = (
             DEFAULT_SETTINGS["last_output_dir"]
+        )
+
+
+    # 保存名のチェック
+    if not isinstance(settings["last_output_name"], str):
+        settings["last_output_name"] = (
+            DEFAULT_SETTINGS["last_output_name"]
         )
 
 

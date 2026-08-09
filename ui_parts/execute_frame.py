@@ -15,8 +15,6 @@ class ExecuteFrame:
         self.on_open_folder = on_open_folder
         self.on_cancel = on_cancel
 
-        self.on_open_folder = on_open_folder
-
         self.frame = tk.LabelFrame(
             parent,
             text="実行"
