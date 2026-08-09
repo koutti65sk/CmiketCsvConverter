@@ -161,7 +161,12 @@ class ConverterUI:
 
         threading.Thread(
             target=self.run_conversion,
-            args=(mode, max_rows, create_zip),
+            args=(
+                mode,
+                max_rows,
+                create_zip,
+                output_dir
+            ),
             daemon=True
         ).start()
 
