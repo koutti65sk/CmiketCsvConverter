@@ -1,11 +1,25 @@
 import json
+import sys
 from pathlib import Path
 
 
-SETTINGS_FILE = (
-    Path(__file__).resolve().parent
-    / "settings.json"
-)
+# 設定ファイルの保存場所
+if getattr(sys, "frozen", False):
+
+    # exeとして実行している場合
+    SETTINGS_FILE = (
+        Path(sys.executable).resolve().parent
+        / "settings.json"
+    )
+
+else:
+
+    # Pythonから実行している場合
+    SETTINGS_FILE = (
+        Path(__file__).resolve().parent
+        / "settings.json"
+    )
+
 
 DEFAULT_SETTINGS = {
     "default_mode": "1",
@@ -35,6 +49,8 @@ def load_settings():
 
         return DEFAULT_SETTINGS.copy()
 
+
+    # 足りない設定項目を追加
     for key, value in DEFAULT_SETTINGS.items():
 
         if key not in settings:
@@ -44,12 +60,17 @@ def load_settings():
     # 読み込み方法のチェック
     if settings["default_mode"] not in ("1", "2"):
 
-        settings["default_mode"] = DEFAULT_SETTINGS["default_mode"]
+        settings["default_mode"] = (
+            DEFAULT_SETTINGS["default_mode"]
+        )
 
 
     # 読み込み行数のチェック
     if (
-        not isinstance(settings["default_max_rows"], int)
+        not isinstance(
+            settings["default_max_rows"],
+            int
+        )
         or settings["default_max_rows"] <= 0
     ):
 
@@ -59,7 +80,10 @@ def load_settings():
 
 
     # ZIP作成のチェック
-    if not isinstance(settings["create_zip"], bool):
+    if not isinstance(
+        settings["create_zip"],
+        bool
+    ):
 
         settings["create_zip"] = (
             DEFAULT_SETTINGS["create_zip"]
@@ -67,14 +91,22 @@ def load_settings():
 
 
     # 保存先のチェック
-    if not isinstance(settings["last_output_dir"], str):
+    if not isinstance(
+        settings["last_output_dir"],
+        str
+    ):
+
         settings["last_output_dir"] = (
             DEFAULT_SETTINGS["last_output_dir"]
         )
 
 
     # 保存名のチェック
-    if not isinstance(settings["last_output_name"], str):
+    if not isinstance(
+        settings["last_output_name"],
+        str
+    ):
+
         settings["last_output_name"] = (
             DEFAULT_SETTINGS["last_output_name"]
         )
