@@ -109,15 +109,22 @@ def excel_to_csv(
             continue
 
         if mode == "1":
-            df = df[
-                df["購入内容"].notna()
-            ]
 
-            df = df[
-                df["購入内容"]
-                .astype(str)
-                .str.strip() != ""
-            ]
+            valid_indices = []
+
+            for index, row in df.iterrows():
+
+                value = row["購入内容"]
+
+                if (
+                    value is None
+                    or str(value).strip() == ""
+                ):
+                    break
+
+                valid_indices.append(index)
+
+            df = df.loc[valid_indices]
 
         rows = []
 
