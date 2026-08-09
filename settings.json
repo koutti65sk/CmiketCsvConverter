@@ -1,5 +1,6 @@
 {
-    "default_mode": "2",
+    "default_mode": "1",
     "default_max_rows": 150,
-    "create_zip": true
+    "create_zip": true,
+    "last_output_dir": ""
 }

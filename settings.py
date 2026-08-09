@@ -64,6 +64,14 @@ def load_settings():
         )
 
 
+# 保存先のチェック
+    if not isinstance(settings["last_output_dir"], str):
+
+        settings["last_output_dir"] = (
+            DEFAULT_SETTINGS["last_output_dir"]
+        )
+
+
     return settings
 
 
