@@ -42,8 +42,7 @@ class FileFrame:
         file_path = filedialog.askopenfilename(
             title="変換するExcelファイルを選択",
             filetypes=[
-                ("Excelファイル", "*.xlsx"),
-                ("Excelファイル", "*.xls")
+                ("Excelファイル", "*.xlsx")
             ]
         )
 

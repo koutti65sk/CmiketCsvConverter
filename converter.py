@@ -34,6 +34,11 @@ def excel_to_csv(
         f"ファイル: {Path(file_path).name}"
     )
 
+    if Path(file_path).suffix.lower() != ".xlsx":
+        raise ValueError(
+            "対応しているExcelファイルは.xlsx形式のみです。"
+        )
+
     # 保存先は元ファイルと同じフォルダ
     if output_dir is None:
         output_dir = Path(file_path).parent
