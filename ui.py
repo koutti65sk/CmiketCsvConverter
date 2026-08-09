@@ -67,7 +67,8 @@ class ConverterUI:
             self.file_selected
         )
         self.output_frame = OutputFrame(
-            self.root
+            self.root,
+            self.settings
         )
         self.setting_frame = SettingFrame(
             self.root,

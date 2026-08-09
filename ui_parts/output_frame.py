@@ -4,9 +4,15 @@ from tkinter import filedialog
 
 class OutputFrame:
 
-    def __init__(self, parent):
+    def __init__(self, parent, settings):
 
-        self.output_dir = None
+        self.output_dir = settings.get(
+            "last_output_dir",
+            ""
+        )
+
+        if self.output_dir == "":
+            self.output_dir = None
 
         self.frame = tk.LabelFrame(
             parent,
@@ -19,9 +25,14 @@ class OutputFrame:
             fill="x"
         )
 
+        if self.output_dir:
+            display_path = self.output_dir
+        else:
+            display_path = "Excelと同じフォルダに保存"
+
         self.path_label = tk.Label(
             self.frame,
-            text="Excelと同じフォルダに保存",
+            text=display_path,
             wraplength=450
         )
 
