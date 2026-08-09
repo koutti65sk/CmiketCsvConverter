@@ -40,6 +40,25 @@ class OutputFrame:
             wraplength=450
         )
 
+        name_label = tk.Label(
+            self.frame,
+            text="保存する名前"
+        )
+
+        name_label.pack(
+            pady=(10, 2)
+        )
+
+        self.name_entry = tk.Entry(
+            self.frame,
+            width=45
+        )
+
+        self.name_entry.pack(
+            padx=10,
+            pady=(0, 10)
+        )
+
         self.path_label.pack(
             padx=10,
             pady=5
@@ -126,3 +145,9 @@ class OutputFrame:
             self.path_label.config(
                 text=folder_path
             )
+
+    def get_output_name(self):
+
+        name = self.name_entry.get().strip()
+
+        return name
