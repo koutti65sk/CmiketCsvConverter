@@ -9,8 +9,8 @@ venv/
 env/
 
 # PyInstaller
-build/
-dist/
+/build/
+/dist/
 
 # Application settings
 settings.json
