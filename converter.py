@@ -1,4 +1,5 @@
 from pathlib import Path
+import pandas as pd
 
 from csv_builder import create_row
 from excel_reader import read_excel, get_hyperlinks
@@ -112,17 +113,14 @@ def excel_to_csv(
 
             valid_indices = []
 
-            for index, row in df.iterrows():
+            for row_index, row in df.iterrows():
 
                 value = row["購入内容"]
 
-                if (
-                    value is None
-                    or str(value).strip() == ""
-                ):
+                if pd.isna(value) or str(value).strip() == "":
                     break
 
-                valid_indices.append(index)
+                valid_indices.append(row_index)
 
             df = df.loc[valid_indices]
 
