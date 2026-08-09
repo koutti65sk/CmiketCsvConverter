@@ -38,7 +38,11 @@ def excel_to_csv(
         output_dir = Path(file_path).parent
     else:
         output_dir = Path(output_dir)
+
     excel_name = Path(file_path).stem
+
+    if output_name:
+        excel_name = output_name
 
     log("Excel読み込み中...")
 
