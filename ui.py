@@ -17,6 +17,7 @@ from ui_parts.file_frame import FileFrame
 from ui_parts.setting_frame import SettingFrame
 from ui_parts.execute_frame import ExecuteFrame
 from ui_parts.progress_frame import ProgressFrame
+from ui_parts.output_frame import OutputFrame
 
 class ConverterUI:
     def __init__(self, root):
@@ -64,6 +65,9 @@ class ConverterUI:
         self.file_frame = FileFrame(
             self.root,
             self.file_selected
+        )
+        self.output_frame = OutputFrame(
+            self.root
         )
         self.setting_frame = SettingFrame(
             self.root,
