@@ -1,10 +1,14 @@
 import tkinter as tk
 from tkinter import filedialog
 
+from settings import save_settings
+
 
 class OutputFrame:
 
     def __init__(self, parent, settings):
+
+        self.settings = settings
 
         self.output_dir = settings.get(
             "last_output_dir",
@@ -89,6 +93,12 @@ class OutputFrame:
 
         self.output_dir = None
 
+        self.settings["last_output_dir"] = ""
+
+        save_settings(
+            self.settings
+        )
+
         self.path_label.config(
             text="Excelと同じフォルダに保存"
         )
@@ -96,3 +106,23 @@ class OutputFrame:
     def get_output_dir(self):
 
         return self.output_dir
+
+    def select_folder(self):
+
+        folder_path = filedialog.askdirectory(
+            title="保存先フォルダを選択"
+        )
+
+        if folder_path:
+
+            self.output_dir = folder_path
+
+            self.settings["last_output_dir"] = folder_path
+
+            save_settings(
+                self.settings
+            )
+
+            self.path_label.config(
+                text=folder_path
+            )
