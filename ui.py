@@ -122,58 +122,81 @@ class ConverterUI:
 
         self.setting_frame.change_mode()
 
-    def convert(self):
-        if not self.file_path:
-            messagebox.showwarning(
-                "警告",
-                "Excelファイルを選択してください"
+        def convert(self):
+
+            if not self.file_path:
+
+                messagebox.showwarning(
+                    "警告",
+                    "Excelファイルを選択してください"
+                )
+
+                return
+
+
+            self.execute_frame.disable_button()
+            self.execute_frame.enable_cancel_button()
+            self.cancel_event.clear()
+
+            self.file_frame.disable()
+
+            self.setting_button.config(
+                state="disabled"
             )
-            return
 
-        self.execute_frame.disable_button()
-        self.execute_frame.enable_cancel_button()
-        self.cancel_event.clear()
+            self.log_frame.disable_clear_button()
 
-        self.file_frame.disable()
+            self.execute_frame.set_status(
+                "変換中..."
+            )
 
-        self.setting_button.config(
-            state="disabled"
-        )
+            self.progress_frame.reset()
 
-        self.log_frame.disable_clear_button()
+            self.root.update()
 
-        self.execute_frame.set_status(
-            "変換中..."
-        )
 
-        self.progress_frame.reset()
+            # 現在の設定を取得
+            values = self.setting_frame.get_values()
 
-        self.root.update()
+            mode = values["mode"]
+            max_rows = values["max_rows"]
+            create_zip = values["create_zip"]
 
-        values = self.setting_frame.get_values()
+            output_dir = self.output_frame.get_output_dir()
+            output_name = self.output_frame.get_output_name()
 
-        mode = values["mode"]
-        max_rows = values["max_rows"]
-        create_zip = values["create_zip"]
-        output_dir = self.output_frame.get_output_dir()
-        output_name = self.output_frame.get_output_name()
 
-        self.settings["last_output_name"] = output_name
-        save_settings(
-            self.settings
-        )
+            # 現在の設定を保存
+            self.settings["default_mode"] = mode
 
-        threading.Thread(
-            target=self.run_conversion,
-            args=(
-                mode,
-                max_rows,
-                create_zip,
-                output_dir,
-                output_name
-            ),
-            daemon=True
-        ).start()
+            self.settings["default_max_rows"] = (
+                max_rows
+                if max_rows is not None
+                else self.settings["default_max_rows"]
+            )
+
+            self.settings["create_zip"] = create_zip
+
+            self.settings["last_output_name"] = output_name
+
+
+            save_settings(
+                self.settings
+            )
+
+
+            threading.Thread(
+                target=self.run_conversion,
+                args=(
+                    mode,
+                    max_rows,
+                    create_zip,
+                    output_dir,
+                    output_name
+                ),
+                daemon=True
+            ).start()
+
 
     def open_output_folder(self):
 
