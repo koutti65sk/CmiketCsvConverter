@@ -10,6 +10,7 @@ def excel_to_csv(
     file_path,
     mode="1",
     max_rows=None,
+    output_dir=None,
     log_callback=None,
     progress_callback=None,
     create_zip=True,
@@ -32,7 +33,10 @@ def excel_to_csv(
     )
 
     # 保存先は元ファイルと同じフォルダ
-    output_dir = Path(file_path).parent
+    if output_dir is None:
+        output_dir = Path(file_path).parent
+    else:
+        output_dir = Path(output_dir)
     excel_name = Path(file_path).stem
 
     log("Excel読み込み中...")

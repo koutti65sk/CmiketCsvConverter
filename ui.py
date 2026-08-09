@@ -157,6 +157,7 @@ class ConverterUI:
         mode = values["mode"]
         max_rows = values["max_rows"]
         create_zip = values["create_zip"]
+        output_dir = self.output_frame.get_output_dir()
 
         threading.Thread(
             target=self.run_conversion,
@@ -181,13 +182,14 @@ class ConverterUI:
         )
 
 
-    def run_conversion(self, mode, max_rows, create_zip):
+    def run_conversion(self, mode, max_rows, create_zip, output_dir):
         try:
             result = excel_to_csv(
                 self.file_path,
                 mode=mode,
                 max_rows=max_rows,
                 create_zip=create_zip,
+                output_dir=output_dir,
                 log_callback=self.add_log,
                 progress_callback=self.update_progress,
                 overwrite_callback=self.request_overwrite,
