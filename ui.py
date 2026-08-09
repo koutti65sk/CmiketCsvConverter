@@ -5,11 +5,8 @@ import os
 from pathlib import Path
 
 from converter import excel_to_csv
-from config import (
-    APP_NAME,
-    WINDOW_SIZE
-)
-from settings import load_settings
+from config import (APP_NAME, WINDOW_SIZE)
+from settings import (load_settings, save_settings)
 from setting_ui import SettingUI
 
 from ui_parts.log_frame import LogFrame
@@ -160,6 +157,11 @@ class ConverterUI:
         create_zip = values["create_zip"]
         output_dir = self.output_frame.get_output_dir()
         output_name = self.output_frame.get_output_name()
+
+        self.settings["last_output_name"] = output_name
+        save_settings(
+            self.settings
+        )
 
         threading.Thread(
             target=self.run_conversion,

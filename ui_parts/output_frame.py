@@ -15,6 +15,11 @@ class OutputFrame:
             ""
         )
 
+        self.output_name = settings.get(
+            "last_output_name",
+            ""
+        )
+
         if self.output_dir == "":
             self.output_dir = None
 
@@ -53,6 +58,12 @@ class OutputFrame:
             self.frame,
             width=45
         )
+
+        if self.output_name:
+            self.name_entry.insert(
+                0,
+                self.output_name
+            )
 
         self.name_entry.pack(
             padx=10,
