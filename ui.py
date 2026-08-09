@@ -159,6 +159,7 @@ class ConverterUI:
         max_rows = values["max_rows"]
         create_zip = values["create_zip"]
         output_dir = self.output_frame.get_output_dir()
+        output_name = self.output_frame.get_output_name()
 
         threading.Thread(
             target=self.run_conversion,
@@ -166,7 +167,8 @@ class ConverterUI:
                 mode,
                 max_rows,
                 create_zip,
-                output_dir
+                output_dir,
+                output_name
             ),
             daemon=True
         ).start()
@@ -188,7 +190,7 @@ class ConverterUI:
         )
 
 
-    def run_conversion(self, mode, max_rows, create_zip, output_dir):
+    def run_conversion(self, mode, max_rows, create_zip, output_dir, output_name):
         try:
             result = excel_to_csv(
                 self.file_path,
@@ -196,6 +198,7 @@ class ConverterUI:
                 max_rows=max_rows,
                 create_zip=create_zip,
                 output_dir=output_dir,
+                output_name=output_name,
                 log_callback=self.add_log,
                 progress_callback=self.update_progress,
                 overwrite_callback=self.request_overwrite,

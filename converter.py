@@ -11,6 +11,7 @@ def excel_to_csv(
     mode="1",
     max_rows=None,
     output_dir=None,
+    output_name=None,
     log_callback=None,
     progress_callback=None,
     create_zip=True,
