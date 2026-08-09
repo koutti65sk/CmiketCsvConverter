@@ -1,9 +1,24 @@
-# Python cache
+# Python
 __pycache__/
-*.pyc
+*.py[cod]
+*.pyo
 
 # Virtual environment
 .venv/
+venv/
+env/
 
-# VS Code
+# PyInstaller
+build/
+dist/
+
+# Application settings
+settings.json
+
+# IDE
 .vscode/
+.idea/
+
+# OS
+.DS_Store
+Thumbs.db

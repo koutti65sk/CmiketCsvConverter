@@ -1,7 +1,7 @@
 {
     "default_mode": "1",
-    "default_max_rows": 150,
+    "default_max_rows": 50,
     "create_zip": true,
-    "last_output_dir": "D:/コミケ/C108",
-    "last_output_name": "総合テスト"
+    "last_output_dir": "D:/コミケ/総合テスト",
+    "last_output_name": "TEST1"
 }
