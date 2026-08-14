@@ -21,3 +21,6 @@ CSV_COLUMNS = [
     "買い物リスト名",
     "買い物メモ"
 ]
+
+# Caicoの保存データZIPでは、CSVはこの固定名でルート直下に置かれる。
+CAICO_CSV_NAME = "list.csv"

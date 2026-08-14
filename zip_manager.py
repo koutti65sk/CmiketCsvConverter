@@ -1,6 +1,8 @@
 import zipfile
 from pathlib import Path
 
+from constants import CAICO_CSV_NAME
+
 def create_zip(csv_file):
     """
     CSVファイルをZIP化する
@@ -17,7 +19,9 @@ def create_zip(csv_file):
     ) as zipf:
         zipf.write(
             csv_file,
-            arcname=csv_file.name
+            # CaicoはZIP内の固定名 list.csv を使って
+            # 保存データかどうかを判定する。
+            arcname=CAICO_CSV_NAME
         )
 
     return zip_file
