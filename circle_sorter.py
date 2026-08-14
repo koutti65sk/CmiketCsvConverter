@@ -4,7 +4,7 @@ import unicodedata
 import pandas as pd
 
 
-SORT_COLUMNS = ("場所", "区分", "地区")
+SORT_COLUMNS = ("地区", "区分", "場所")
 CIRCLE_COLUMNS = (
     "サークル名",
     "作家",
@@ -65,7 +65,7 @@ def _circle_identity(row):
 def sort_circle_groups(df):
     """
     商品行をサークル単位でまとめたまま、
-    場所、区分、地区の順で並べ替える。
+    地区、区分、場所の順で並べ替える。
     """
 
     if df.empty or "サークル名" not in df.columns:

@@ -134,7 +134,7 @@ def excel_to_csv(
             df = df.loc[valid_indices]
 
         # サークル内の商品順を維持したまま、
-        # 場所、区分、地区の順で自動ソートする。
+        # 地区、区分、場所の順で自動ソートする。
         df = sort_circle_groups(df)
 
         # 同一サークルの商品が複数行ある場合、先頭行だけに
