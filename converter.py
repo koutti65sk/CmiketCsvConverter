@@ -5,6 +5,10 @@ from csv_builder import create_row
 from excel_reader import read_excel, get_hyperlinks
 from zip_manager import create_zip as create_zip_file
 from csv_writer import save_csv, get_csv_path
+from circle_sorter import (
+    clear_repeated_circle_values,
+    sort_circle_groups
+)
 
 
 def excel_to_csv(
@@ -128,6 +132,14 @@ def excel_to_csv(
                 valid_indices.append(row_index)
 
             df = df.loc[valid_indices]
+
+        # サークル内の商品順を維持したまま、
+        # 地区、区分、場所の順で自動ソートする。
+        df = sort_circle_groups(df)
+
+        # 同一サークルの商品が複数行ある場合、先頭行だけに
+        # サークル情報を残し、後続行を商品追加行へ変換する。
+        df = clear_repeated_circle_values(df)
 
         rows = []
 
